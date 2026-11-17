@@ -1,0 +1,85 @@
+{
+  "shadow": {
+    "$type": "shadow",
+    "cover": {
+      "$value": {
+        "color": "{color.shadow}",
+        "offsetX": "0px",
+        "offsetY": "8px",
+        "blur": "24px",
+        "spread": "0px"
+      },
+      "$extensions": {
+        "bds": {
+          "css": "shadow-cover"
+        }
+      }
+    },
+    "glow": {
+      "$value": {
+        "color": "{color.glow}",
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "28px",
+        "spread": "0px"
+      },
+      "$extensions": {
+        "bds": {
+          "css": "shadow-glow"
+        }
+      },
+      "$description": "Use as filter: drop-shadow on cut-out images."
+    }
+  },
+  "motion": {
+    "ease": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.2,
+        0.7,
+        0.2,
+        1
+      ],
+      "$extensions": {
+        "bds": {
+          "css": "ease"
+        }
+      }
+    },
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": "150ms",
+        "$extensions": {
+          "bds": {
+            "css": "duration-fast"
+          }
+        }
+      },
+      "base": {
+        "$value": "250ms",
+        "$extensions": {
+          "bds": {
+            "css": "duration-base"
+          }
+        }
+      },
+      "slow": {
+        "$value": "700ms",
+        "$extensions": {
+          "bds": {
+            "css": "duration-slow"
+          }
+        }
+      },
+      "draw": {
+        "$value": "900ms",
+        "$extensions": {
+          "bds": {
+            "css": "duration-draw"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "name": "bereg-ds",
+  "version": "1.0.0",
+  "description": "Bereg DS: the Engineering Blueprint design system by Konstantin Beregovoy. Design tokens, CSS components and React components.",
+  "license": "MIT",
+  "author": "Konstantin Beregovoy (https://bereg.dev)",
+  "homepage": "https://ds.bereg.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KonstantinBeregovoy/bereg-ds.git"
+  },
+  "bugs": "https://github.com/KonstantinBeregovoy/bereg-ds/issues",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "css",
+    "react",
+    "dtcg",
+    "ibm-plex",
+    "accessibility"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "tokens",
+    "SKILL.md",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dist/css/bereg-ds.css",
+    "./fonts.css": "./dist/css/fonts.css",
+    "./tokens.css": "./dist/css/tokens.css",
+    "./base.css": "./dist/css/base.css",
+    "./components.css": "./dist/css/components.css",
+    "./hdr.css": "./dist/css/hdr.css",
+    "./bereg-ds.css": "./dist/css/bereg-ds.css",
+    "./tokens": {
+      "types": "./dist/tokens/tokens.d.ts",
+      "default": "./dist/tokens/tokens.js"
+    },
+    "./tokens.json": "./dist/tokens/tokens.json",
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:css": "node scripts/build-css.mjs",
+    "build:react": "tsup",
+    "build": "npm run build:tokens && npm run build:css && npm run build:react",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "npm run build && storybook build -o storybook-static",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.6.7",
+    "@storybook/addon-docs": "^10.6.7",
+    "@storybook/react-vite": "^10.6.7",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "jsdom": "^31.0.1",
+    "lightningcss": "^1.33.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "storybook": "^10.6.7",
+    "style-dictionary": "^5.8.0",
+    "tsup": "^9.0.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

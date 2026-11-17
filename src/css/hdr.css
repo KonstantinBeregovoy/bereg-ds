@@ -1,0 +1,37 @@
+/* Bereg DS HDR accents (optional). Not part of the default style: use only for single accents,
+   for example one logo or one card. Everything has an SDR fallback, so nothing disappears on normal screens.
+   HDR assets (Ultra HDR JPEG with a gain map) can be made with https://glow.bereg.dev.
+
+   Usage:
+   <img class="hdr-logo" src="logo-hdr.jpg" alt="">                    logo on a black background, black disappears
+   <article class="card hdr-card" style="--hdr-swatch: url(swatch.jpg)"> border and title glow on HDR screens */
+
+/* Logo exported on black: "screen" removes the black so the logo sits on any dark background. */
+.hdr-logo { mix-blend-mode: screen; }
+
+.hdr-card .stretch, .hdr-card .card-title { color: var(--text); }
+
+@media (dynamic-range: high) {
+  .hdr-card {
+    border: var(--border-medium) solid transparent;
+    padding: calc(var(--space-6) - 1px);
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      linear-gradient(color-mix(in oklab, var(--bg) 40%, transparent), color-mix(in oklab, var(--bg) 40%, transparent)) border-box,
+      var(--hdr-swatch, none) center / cover border-box,
+      linear-gradient(var(--accent), var(--accent)) border-box;
+  }
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .hdr-card .stretch, .hdr-card .hdr-text {
+      background: var(--hdr-swatch, none) center / cover, linear-gradient(var(--text), var(--text));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .hdr-card { background: Canvas; border-color: CanvasText; }
+  .hdr-card .stretch, .hdr-card .hdr-text { background: none; color: LinkText; }
+}

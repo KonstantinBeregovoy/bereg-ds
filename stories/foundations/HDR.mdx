@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/HDR" />
+
+# HDR accents (optional)
+
+HDR is a possibility, not a rule. Everything in the system is SDR by default.
+Use HDR for one accent at a time, where it supports the idea: a logo or a single card.
+
+Examples on bereg.dev:
+- **Logo in the header:** Ultra HDR JPEG with a gain map on a black background, `mix-blend-mode: screen`.
+  The brightness is tuned to be soft and not blinding.
+- **hdr-glow project card:** the border and the title are cut out of an HDR swatch and glow only on HDR screens.
+
+```js
+import 'bereg-ds/hdr.css';
+```
+
+```html
+<img class="hdr-logo" src="logo-hdr.jpg" alt="">
+<article class="card hdr-card" style="--hdr-swatch: url(swatch.jpg)">...</article>
+```
+
+Rules: always `@media (dynamic-range: high)` with an SDR fallback, a `forced-colors` fallback, and no information
+that exists only in HDR. Make HDR assets with [glow.bereg.dev](https://glow.bereg.dev). Figma cannot show HDR.

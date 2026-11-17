@@ -1,0 +1,193 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{primitive.color.navy.900}",
+      "$extensions": {
+        "bds": {
+          "css": "bg"
+        }
+      }
+    },
+    "surface": {
+      "$value": "{primitive.color.navy.850}",
+      "$extensions": {
+        "bds": {
+          "css": "surface"
+        }
+      }
+    },
+    "text": {
+      "$value": "{primitive.color.slate.100}",
+      "$extensions": {
+        "bds": {
+          "css": "text"
+        }
+      }
+    },
+    "muted": {
+      "$value": "{primitive.color.slate.400}",
+      "$extensions": {
+        "bds": {
+          "css": "muted"
+        }
+      }
+    },
+    "line": {
+      "$value": "{primitive.color.navy.700}",
+      "$extensions": {
+        "bds": {
+          "css": "line"
+        }
+      },
+      "$description": "Decorative lines only (1.47:1 on bg)."
+    },
+    "line-strong": {
+      "$value": "{primitive.color.navy.500}",
+      "$extensions": {
+        "bds": {
+          "css": "line-strong"
+        }
+      },
+      "$description": "Borders of interactive elements, >=3:1 on bg and surface (WCAG 1.4.11)."
+    },
+    "line-hover": {
+      "$value": "{primitive.color.mix.amber-line-45}",
+      "$extensions": {
+        "bds": {
+          "css": "line-hover"
+        }
+      }
+    },
+    "accent": {
+      "$value": "{primitive.color.blue.300}",
+      "$extensions": {
+        "bds": {
+          "css": "accent"
+        }
+      },
+      "$description": "Links, primary actions, focus."
+    },
+    "accent-ink": {
+      "$value": "{primitive.color.navy.950}",
+      "$extensions": {
+        "bds": {
+          "css": "accent-ink"
+        }
+      }
+    },
+    "accent-subtle": {
+      "$value": "{primitive.color.alpha.blue-300.10}",
+      "$extensions": {
+        "bds": {
+          "css": "accent-subtle"
+        }
+      }
+    },
+    "highlight": {
+      "$value": "{primitive.color.amber.300}",
+      "$extensions": {
+        "bds": {
+          "css": "highlight"
+        }
+      },
+      "$description": "Hover of primary actions, section numbers, current filter."
+    },
+    "focus": {
+      "$value": "{primitive.color.blue.300}",
+      "$extensions": {
+        "bds": {
+          "css": "focus"
+        }
+      }
+    },
+    "selection": {
+      "$value": "{primitive.color.alpha.blue-300.28}",
+      "$extensions": {
+        "bds": {
+          "css": "selection"
+        }
+      }
+    },
+    "selection-text": {
+      "$value": "{primitive.color.white}",
+      "$extensions": {
+        "bds": {
+          "css": "selection-text"
+        }
+      }
+    },
+    "header-bg": {
+      "$value": "{primitive.color.alpha.navy-900.88}",
+      "$extensions": {
+        "bds": {
+          "css": "header-bg"
+        }
+      }
+    },
+    "grid": {
+      "$value": "{primitive.color.alpha.grid.5-5}",
+      "$extensions": {
+        "bds": {
+          "css": "grid"
+        }
+      }
+    },
+    "grid-major": {
+      "$value": "{primitive.color.alpha.grid.10}",
+      "$extensions": {
+        "bds": {
+          "css": "grid-major"
+        }
+      }
+    },
+    "grid-dot": {
+      "$value": "{primitive.color.alpha.blue-300.50}",
+      "$extensions": {
+        "bds": {
+          "css": "grid-dot"
+        }
+      }
+    },
+    "lamp-grid": {
+      "$value": "{primitive.color.alpha.blue-300.15}",
+      "$extensions": {
+        "bds": {
+          "css": "lamp-grid"
+        }
+      }
+    },
+    "lamp-grid-major": {
+      "$value": "{primitive.color.alpha.blue-300.24}",
+      "$extensions": {
+        "bds": {
+          "css": "lamp-grid-major"
+        }
+      }
+    },
+    "lamp-glow": {
+      "$value": "{primitive.color.alpha.blue-300.3}",
+      "$extensions": {
+        "bds": {
+          "css": "lamp-glow"
+        }
+      }
+    },
+    "shadow": {
+      "$value": "{primitive.color.alpha.black.45}",
+      "$extensions": {
+        "bds": {
+          "css": "shadow-color"
+        }
+      }
+    },
+    "glow": {
+      "$value": "{primitive.color.alpha.blue-300.10-5}",
+      "$extensions": {
+        "bds": {
+          "css": "glow-color"
+        }
+      }
+    }
+  }
+}

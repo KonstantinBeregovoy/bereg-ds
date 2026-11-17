@@ -1,0 +1,5 @@
+/* Bereg DS: everything except the optional HDR accents. Import once at the root of your app. */
+@import './fonts.css';
+@import './tokens.css';
+@import './base.css';
+@import './components.css';

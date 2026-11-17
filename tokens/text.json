@@ -1,0 +1,186 @@
+{
+  "text": {
+    "$type": "typography",
+    "h1": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.bold}",
+        "fontSize": "{font.size.display}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.display}"
+      }
+    },
+    "h1-subtitle": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{font.size.2xl}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.snug}"
+      }
+    },
+    "facts": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.semibold}",
+        "fontSize": "{font.size.4xl}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.tighter}"
+      }
+    },
+    "h2": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.semibold}",
+        "fontSize": "{font.size.3xl}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.tight}"
+      }
+    },
+    "h2-article": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.semibold}",
+        "fontSize": "{font.size.2xl}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.tight}"
+      }
+    },
+    "post-title": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.semibold}",
+        "fontSize": "{font.size.xl}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.tight}"
+      }
+    },
+    "h3": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.semibold}",
+        "fontSize": "{font.size.lg}",
+        "lineHeight": "{font.line-height.tight}",
+        "letterSpacing": "{font.tracking.snug}"
+      }
+    },
+    "brand": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.bold}",
+        "fontSize": "{font.size.base}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.tight}"
+      }
+    },
+    "lede": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.light}",
+        "fontSize": "{font.size.lg}",
+        "lineHeight": "{font.line-height.snug}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "lede-hero": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.lg}",
+        "lineHeight": "{font.line-height.snug}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "body": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.base}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "small": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.md}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "caption": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.sm}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "strong": {
+      "$value": {
+        "fontFamily": "{font.family.sans}",
+        "fontWeight": "{font.weight.bold}",
+        "fontSize": "{font.size.base}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "meta": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.xs}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "label": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.xs}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.label}"
+      }
+    },
+    "caps": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.xs}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.caps}"
+      },
+      "$description": "Use with text-transform: uppercase."
+    },
+    "tag": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.2xs}",
+        "lineHeight": 1.3333,
+        "letterSpacing": "{font.tracking.none}"
+      }
+    },
+    "footnote": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.2xs}",
+        "lineHeight": "{font.line-height.body}",
+        "letterSpacing": "{font.tracking.note}"
+      }
+    },
+    "code": {
+      "$value": {
+        "fontFamily": "{font.family.mono}",
+        "fontWeight": "{font.weight.regular}",
+        "fontSize": "{font.size.sm}",
+        "lineHeight": "{font.line-height.snug}",
+        "letterSpacing": "{font.tracking.none}"
+      }
+    }
+  }
+}

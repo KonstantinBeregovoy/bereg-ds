@@ -1,0 +1,204 @@
+{
+  "primitive": {
+    "color": {
+      "$type": "color",
+      "$description": "Raw palette. Do not use directly in components; use semantic color tokens.",
+      "navy": {
+        "950": {
+          "$value": "#06101d",
+          "$extensions": {
+            "bds": {
+              "css": "prim-navy-950"
+            }
+          }
+        },
+        "900": {
+          "$value": "#0a1220",
+          "$extensions": {
+            "bds": {
+              "css": "prim-navy-900"
+            }
+          }
+        },
+        "850": {
+          "$value": "#0d1829",
+          "$extensions": {
+            "bds": {
+              "css": "prim-navy-850"
+            }
+          }
+        },
+        "700": {
+          "$value": "#1f3350",
+          "$extensions": {
+            "bds": {
+              "css": "prim-navy-700"
+            }
+          }
+        },
+        "500": {
+          "$value": "#4d6a8f",
+          "$extensions": {
+            "bds": {
+              "css": "prim-navy-500"
+            }
+          }
+        }
+      },
+      "slate": {
+        "400": {
+          "$value": "#8ea3bf",
+          "$extensions": {
+            "bds": {
+              "css": "prim-slate-400"
+            }
+          }
+        },
+        "100": {
+          "$value": "#dbe6f5",
+          "$extensions": {
+            "bds": {
+              "css": "prim-slate-100"
+            }
+          }
+        }
+      },
+      "blue": {
+        "300": {
+          "$value": "#78c2ff",
+          "$extensions": {
+            "bds": {
+              "css": "prim-blue-300"
+            }
+          }
+        }
+      },
+      "amber": {
+        "300": {
+          "$value": "#f2b45e",
+          "$extensions": {
+            "bds": {
+              "css": "prim-amber-300"
+            }
+          }
+        }
+      },
+      "white": {
+        "$value": "#ffffff",
+        "$extensions": {
+          "bds": {
+            "css": "prim-white"
+          }
+        }
+      },
+      "alpha": {
+        "blue-300": {
+          "3": {
+            "$value": "#78c2ff09",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-3"
+              }
+            }
+          },
+          "10": {
+            "$value": "#78c2ff1a",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-10"
+              }
+            }
+          },
+          "10-5": {
+            "$value": "#78c2ff1b",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-10-5"
+              }
+            }
+          },
+          "15": {
+            "$value": "#78c2ff26",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-15"
+              }
+            }
+          },
+          "24": {
+            "$value": "#78c2ff3d",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-24"
+              }
+            }
+          },
+          "28": {
+            "$value": "#78c2ff47",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-28"
+              }
+            }
+          },
+          "50": {
+            "$value": "#78c2ff80",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-blue-300-50"
+              }
+            }
+          }
+        },
+        "grid": {
+          "5-5": {
+            "$value": "#78aaff0e",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-grid-5-5"
+              }
+            }
+          },
+          "10": {
+            "$value": "#78aaff1a",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-grid-10"
+              }
+            }
+          }
+        },
+        "black": {
+          "45": {
+            "$value": "#00000073",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-black-45"
+              }
+            }
+          }
+        },
+        "navy-900": {
+          "88": {
+            "$value": "#0a1220e0",
+            "$extensions": {
+              "bds": {
+                "css": "prim-alpha-navy-900-88"
+              }
+            }
+          }
+        }
+      },
+      "mix": {
+        "amber-line-45": {
+          "$value": "#7e6d56",
+          "$extensions": {
+            "bds": {
+              "css": "prim-mix-amber-line-45"
+            }
+          }
+        }
+      }
+    }
+  }
+}
