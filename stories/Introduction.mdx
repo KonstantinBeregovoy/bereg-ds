@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Bereg DS
+
+The **Engineering Blueprint** design system by Konstantin Beregovoy: dark, technical, drawn like a blueprint.
+IBM Plex Sans and Mono, one accent, corner ticks, dimension lines and a grid.
+
+- **Figma:** [Bereg DS](https://www.figma.com/design/nWkFlhkomx90UBXw6nFAQj)
+- **npm:** [bereg-ds](https://www.npmjs.com/package/bereg-ds)
+- **GitHub:** [KonstantinBeregovoy/bereg-ds](https://github.com/KonstantinBeregovoy/bereg-ds)
+- **Live example:** [bereg.dev](https://bereg.dev)
+
+## Install
+
+```sh
+npm i bereg-ds
+```
+
+```js
+import 'bereg-ds/bereg-ds.css';            // fonts + tokens + base + components
+import { Button, Card } from 'bereg-ds/react'; // React projects only
+```
+
+Plain HTML works with the same classes: `<a class="btn btn-primary" href="/projects/">Projects</a>`.
+
+## Rules
+
+1. **Strict scale of 4.** Spacing, gaps and radii are multiples of 4 (`--space-1` = 4px ... `--space-16` = 64px).
+   Corner ticks, stroke widths and breakpoints are separate sizes.
+2. **Tokens only.** Components never use raw colors or pixel spacing; a test enforces it.
+3. **Units.** Font sizes and spacing in rem (follow the user's browser font size), line height without units,
+   letter spacing in em, strokes in px, breakpoints in em.
+4. **Accessibility.** Text contrast at least 7:1. Interactive borders use `--line-strong` (3:1 or more).
+   Every interactive component has a visible focus ring. Links are underlined.
+5. **Dark theme only** for now. A light theme will reuse the same semantic names.
+6. **HDR is an optional accent**, never a default. See Foundations / HDR.
+7. **Exceptions belong to the project, not to the system.** If a site needs a special case, it lives in that site's CSS.

@@ -1,0 +1,207 @@
+/* Bereg DS components. Needs tokens.css (and base.css for page defaults).
+   Every value comes from a token. Spacing, gaps and radii follow the scale of 4.
+   Names match the Figma components: Button, Link, Nav Link, Tag, Card, Quote, Filter Tab, Section Head,
+   Facts, Timeline Item, Post Item, Book Promo, Site Header, Site Footer. */
+
+@property --tick { syntax: '<length>'; inherits: false; initial-value: 11px; }
+
+/* ---------- Button ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-thin) solid var(--accent); border-radius: var(--radius-sm);
+  font-family: var(--mono); font-size: var(--font-size-xs); font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-caps); text-transform: uppercase; line-height: var(--leading-body);
+  text-decoration: none; cursor: pointer; background: transparent; color: var(--accent);
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--highlight); border-color: var(--highlight); color: var(--accent-ink); text-decoration: none; }
+.btn-secondary { color: var(--accent); }
+.btn-secondary:hover { background: var(--accent-subtle); color: var(--accent); text-decoration: none; }
+.btn:disabled, .btn[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Link ---------- */
+/* Inline links use the base <a> style. Muted: footer and secondary links. */
+.link-muted { color: var(--muted); }
+.link-muted:hover { color: var(--text); }
+
+/* ---------- Nav Link ---------- */
+.nav-link {
+  display: inline-block; padding: var(--space-1) 0;
+  border-bottom: var(--border-medium) solid transparent;
+  color: var(--muted); text-decoration: none;
+  font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-label);
+}
+.nav-link:hover { color: var(--text); }
+.nav-link[aria-current='page'], .nav-link[aria-current='true'] { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---------- Tag ---------- */
+.tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 0; padding: 0; list-style: none; }
+.tag, .tags > li {
+  font-family: var(--mono); font-size: var(--font-size-2xs); line-height: 1.3333; color: var(--muted);
+  border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); padding: var(--space-1) var(--space-2);
+}
+
+/* ---------- Grid layouts ---------- */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--space-6); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(13.75rem, 1fr)); }
+.grid-wide { grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr)); }
+
+/* ---------- Card (and Quote, Book Promo share the frame) ---------- */
+.card, .quote {
+  position: relative; background: var(--surface);
+  border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast);
+}
+.card { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); }
+.card-body { display: flex; flex-direction: column; gap: var(--space-3); }
+.card-title { margin: 0; font-size: var(--font-size-lg); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: var(--tracking-snug); }
+.card-text { margin: 0; color: var(--muted); font-size: var(--font-size-md); }
+/* The title link covers the whole card. */
+.card .stretch { color: inherit; text-decoration: none; }
+.card .stretch::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-sm); }
+
+/* Corner ticks: a blueprint detail. Grow and turn highlight on hover and keyboard focus. */
+.card::before, .quote::before {
+  --tc: var(--accent);
+  content: ''; position: absolute; inset: -1px; pointer-events: none; opacity: 0.5;
+  background:
+    linear-gradient(var(--tc), var(--tc)) top left / var(--tick) 1px no-repeat,
+    linear-gradient(var(--tc), var(--tc)) top left / 1px var(--tick) no-repeat,
+    linear-gradient(var(--tc), var(--tc)) top right / var(--tick) 1px no-repeat,
+    linear-gradient(var(--tc), var(--tc)) top right / 1px var(--tick) no-repeat,
+    linear-gradient(var(--tc), var(--tc)) bottom left / var(--tick) 1px no-repeat,
+    linear-gradient(var(--tc), var(--tc)) bottom left / 1px var(--tick) no-repeat,
+    linear-gradient(var(--tc), var(--tc)) bottom right / var(--tick) 1px no-repeat,
+    linear-gradient(var(--tc), var(--tc)) bottom right / 1px var(--tick) no-repeat;
+  transition: opacity var(--duration-fast), --tick var(--duration-base) var(--ease);
+}
+.card:hover, .card:focus-within { border-color: var(--line-hover); }
+.card:hover::before, .card:focus-within::before { --tick: var(--tick-hover); --tc: var(--highlight); opacity: 1; }
+/* Focus: the ring goes around the whole card, not only around the title link. */
+.card:has(.stretch:focus-visible) { outline: var(--border-thick) solid var(--focus); outline-offset: var(--focus-offset); }
+.card .stretch:focus-visible { outline: none; }
+
+/* ---------- Quote ---------- */
+.quotes { display: grid; grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr)); gap: var(--space-6); }
+.quote { margin: 0; padding: var(--space-6); display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-4); }
+.quote > p { margin: 0; font-size: var(--font-size-md); }
+.quote-author { font-size: var(--font-size-sm); color: var(--muted); }
+.quote-author strong { display: block; color: var(--text); font-size: var(--font-size-md); }
+.quote-author a { color: inherit; }
+
+/* ---------- Book Promo ---------- */
+.book-promo { padding: var(--space-3); gap: var(--space-3); align-items: center; width: max-content; font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-note); }
+.book-promo img { width: 7.5rem; height: auto; border: var(--border-thin) solid var(--line); box-shadow: var(--shadow-cover); }
+.book-promo-row { flex-direction: row; gap: var(--space-4); padding-inline-end: var(--space-6); }
+.book-promo-row img { width: 4rem; }
+
+/* ---------- Filter Tab ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0 0 var(--space-6); padding: 0; list-style: none; }
+.filter-tab {
+  display: inline-block; padding: var(--space-2) var(--space-4);
+  border: var(--border-thin) solid var(--line-strong); border-radius: var(--radius-sm);
+  font-family: var(--mono); font-size: var(--font-size-xs); color: var(--muted); text-decoration: none;
+}
+.filter-tab:hover { color: var(--text); border-color: var(--accent); }
+.filter-tab[aria-current='true'], .filter-tab[aria-current='page'] { background: var(--highlight); color: var(--accent-ink); border-color: var(--highlight); }
+
+/* ---------- Section Head ---------- */
+/* Numbered with a CSS counter (put counter-reset: sec on a parent, .sections does it), with a dimension line that draws itself. */
+.sections { counter-reset: sec; }
+.section + .section { margin-top: var(--space-16); }
+.section-head {
+  position: relative; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;
+  gap: var(--space-4); margin-bottom: var(--space-6); padding-bottom: var(--space-4);
+}
+.section-head::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 9px; transform-origin: left center;
+  background:
+    linear-gradient(var(--line), var(--line)) left bottom / 1px 9px no-repeat,
+    linear-gradient(var(--line), var(--line)) right bottom / 1px 9px no-repeat,
+    linear-gradient(var(--line), var(--line)) center bottom / 100% 1px no-repeat;
+  animation: bds-draw var(--duration-draw) var(--ease) both;
+}
+.section-head h2::before {
+  counter-increment: sec;
+  content: counter(sec, decimal-leading-zero) ' /';
+  content: counter(sec, decimal-leading-zero) ' /' / '';
+  font-family: var(--mono); font-size: var(--font-size-xs); font-weight: var(--weight-regular); letter-spacing: var(--tracking-label);
+  color: var(--highlight); margin-right: 0.9em; vertical-align: 0.35em;
+}
+
+/* ---------- Facts (blueprint title block) ---------- */
+.facts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: 1px;
+  margin: 0; padding: 0; list-style: none; background: var(--line); border: var(--border-thin) solid var(--line);
+}
+.facts > li { background: var(--surface); padding: var(--space-4) var(--space-6) var(--space-6); }
+.facts strong { display: block; font-size: var(--font-size-4xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tighter); line-height: var(--leading-tight); }
+.facts span { display: block; color: var(--muted); font-size: var(--font-size-md); }
+
+/* ---------- Timeline Item ---------- */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); }
+.timeline > li { display: grid; grid-template-columns: 10rem 1fr; gap: var(--space-6); border-top: var(--border-thin) solid var(--line); padding-top: var(--space-4); }
+.timeline h3 { font-size: var(--font-size-lg); }
+.timeline p { margin: var(--space-1) 0 0; color: var(--muted); font-size: var(--font-size-md); }
+
+/* ---------- Post Item ---------- */
+.subhead { font-family: var(--mono); font-size: var(--font-size-xs); font-weight: var(--weight-regular); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--muted); margin: var(--space-8) 0 var(--space-4); }
+.subhead:first-child { margin-top: 0; }
+.posts { list-style: none; margin: 0; padding: 0; }
+.posts > li { border-top: var(--border-thin) solid var(--line); padding: var(--space-4) 0; display: grid; grid-template-columns: 8.125rem 1fr; gap: var(--space-6); }
+.posts h2, .posts h3 { font-size: var(--font-size-xl); }
+.posts h2 a, .posts h3 a { color: var(--text); text-decoration: none; }
+.posts h2 a:hover, .posts h3 a:hover { color: var(--accent); }
+.posts p { margin: var(--space-1) 0 0; color: var(--muted); font-size: var(--font-size-md); }
+
+@media (max-width: 40em) {
+  .timeline > li, .posts > li { grid-template-columns: 1fr; gap: var(--space-1); }
+}
+
+/* ---------- Actions row ---------- */
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+
+/* ---------- Site Header ---------- */
+.site-header { border-bottom: var(--border-thin) solid var(--line); background: var(--header-bg); }
+.site-header > .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; min-height: 4.5rem; padding-block: var(--space-2); }
+.brand { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--text); text-decoration: none; font-weight: var(--weight-bold); font-size: var(--font-size-base); letter-spacing: var(--tracking-tight); }
+.brand:hover { color: var(--text); }
+.brand img { height: 2.5rem; width: auto; }
+.site-nav ul { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); list-style: none; margin: 0; padding: 0; }
+
+/* ---------- Site Footer ---------- */
+.site-footer { border-top: var(--border-thin) solid var(--line); padding: var(--space-8) 0; color: var(--muted); font-family: var(--mono); font-size: var(--font-size-xs); }
+.site-footer > .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-4); }
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--text); }
+.site-note { flex-basis: 100%; font-size: var(--font-size-2xs); letter-spacing: var(--tracking-note); }
+
+/* ---------- Prose (articles) ---------- */
+.prose { max-width: 68ch; }
+.prose h2 { margin: var(--space-8) 0 var(--space-4); font-size: var(--font-size-2xl); }
+.prose h3 { margin: var(--space-6) 0 var(--space-2); }
+.prose ul, .prose ol { padding-left: 1.3em; margin: 0 0 var(--space-4); }
+.prose li { margin-bottom: var(--space-2); }
+.prose img { border-radius: var(--radius-lg); margin: var(--space-4) 0; }
+.prose code { font-family: var(--mono); font-size: 0.9em; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); padding: 0 var(--space-1); }
+.prose pre { max-width: 100%; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); padding: var(--space-4); overflow-x: auto; font-size: var(--font-size-sm); line-height: var(--leading-snug); }
+.prose pre code { background: none; border: 0; padding: 0; }
+.prose blockquote { border-left: var(--border-thick) solid var(--accent); margin: var(--space-4) 0; padding: 0 var(--space-4); color: var(--muted); }
+.prose table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.prose th, .prose td { padding: var(--space-2) var(--space-3); border-bottom: var(--border-thin) solid var(--line); text-align: left; vertical-align: top; }
+.prose th { font-family: var(--mono); font-size: var(--font-size-2xs); font-weight: var(--weight-regular); color: var(--muted); }
+
+/* ---------- Motion ---------- */
+@keyframes bds-draw { from { transform: scaleX(0); } }
+@keyframes bds-rise { from { opacity: 0; transform: translateY(14px); } }
+@supports (animation-timeline: view()) {
+  .section-head::after { animation: bds-draw linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+}
+
+/* ---------- Forced colors (Windows high contrast) ---------- */
+@media (forced-colors: active) {
+  .card::before, .quote::before, .section-head::after { display: none; }
+  .btn-primary, .filter-tab[aria-current='true'], .filter-tab[aria-current='page'] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
+}

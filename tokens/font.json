@@ -1,0 +1,262 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": [
+          "IBM Plex Sans Variable",
+          "IBM Plex Sans",
+          "IBM Plex Sans Fallback",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "sans-serif"
+        ],
+        "$extensions": {
+          "bds": {
+            "css": "font"
+          }
+        },
+        "$description": "'IBM Plex Sans Variable' is the Fontsource name of the variable font (fonts.css); 'IBM Plex Sans' covers projects that load Plex another way."
+      },
+      "mono": {
+        "$value": [
+          "IBM Plex Mono",
+          "IBM Plex Mono Fallback",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace"
+        ],
+        "$extensions": {
+          "bds": {
+            "css": "mono"
+          }
+        }
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light": {
+        "$value": 300,
+        "$extensions": {
+          "bds": {
+            "css": "weight-light"
+          }
+        }
+      },
+      "regular": {
+        "$value": 400,
+        "$extensions": {
+          "bds": {
+            "css": "weight-regular"
+          }
+        }
+      },
+      "semibold": {
+        "$value": 600,
+        "$extensions": {
+          "bds": {
+            "css": "weight-semibold"
+          }
+        }
+      },
+      "bold": {
+        "$value": 700,
+        "$extensions": {
+          "bds": {
+            "css": "weight-bold"
+          }
+        }
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "$description": "Type scale, close to 1.25.",
+      "2xs": {
+        "$value": "12px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-2xs"
+          }
+        }
+      },
+      "xs": {
+        "$value": "13px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-xs"
+          }
+        }
+      },
+      "sm": {
+        "$value": "14px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-sm"
+          }
+        }
+      },
+      "md": {
+        "$value": "16px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-md"
+          }
+        }
+      },
+      "base": {
+        "$value": "17px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-base"
+          }
+        }
+      },
+      "lg": {
+        "$value": "20px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-lg"
+          }
+        }
+      },
+      "xl": {
+        "$value": "24px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-xl"
+          }
+        }
+      },
+      "2xl": {
+        "$value": "30px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-2xl"
+          }
+        }
+      },
+      "3xl": {
+        "$value": "38px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-3xl"
+          }
+        }
+      },
+      "4xl": {
+        "$value": "48px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-4xl"
+          }
+        }
+      },
+      "display": {
+        "$value": "80px",
+        "$extensions": {
+          "bds": {
+            "css": "font-size-display"
+          }
+        }
+      }
+    },
+    "line-height": {
+      "$type": "number",
+      "tight": {
+        "$value": 1.1,
+        "$extensions": {
+          "bds": {
+            "css": "leading-tight"
+          }
+        }
+      },
+      "snug": {
+        "$value": 1.5,
+        "$extensions": {
+          "bds": {
+            "css": "leading-snug"
+          }
+        }
+      },
+      "body": {
+        "$value": 1.65,
+        "$extensions": {
+          "bds": {
+            "css": "leading-body"
+          }
+        }
+      }
+    },
+    "tracking": {
+      "$type": "dimension",
+      "$description": "Letter spacing in em.",
+      "display": {
+        "$value": "-0.04em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-display"
+          }
+        }
+      },
+      "tighter": {
+        "$value": "-0.03em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-tighter"
+          }
+        }
+      },
+      "tight": {
+        "$value": "-0.02em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-tight"
+          }
+        }
+      },
+      "snug": {
+        "$value": "-0.01em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-snug"
+          }
+        }
+      },
+      "none": {
+        "$value": "0em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-none"
+          }
+        }
+      },
+      "note": {
+        "$value": "0.02em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-note"
+          }
+        }
+      },
+      "label": {
+        "$value": "0.04em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-label"
+          }
+        }
+      },
+      "caps": {
+        "$value": "0.06em",
+        "$extensions": {
+          "bds": {
+            "css": "tracking-caps"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "space": {
+    "$type": "dimension",
+    "$description": "Scale of 4: spacing, gaps and radii are multiples of 4.",
+    "1": {
+      "$value": "4px",
+      "$extensions": {
+        "bds": {
+          "css": "space-1"
+        }
+      }
+    },
+    "2": {
+      "$value": "8px",
+      "$extensions": {
+        "bds": {
+          "css": "space-2"
+        }
+      }
+    },
+    "3": {
+      "$value": "12px",
+      "$extensions": {
+        "bds": {
+          "css": "space-3"
+        }
+      }
+    },
+    "4": {
+      "$value": "16px",
+      "$extensions": {
+        "bds": {
+          "css": "space-4"
+        }
+      }
+    },
+    "5": {
+      "$value": "20px",
+      "$extensions": {
+        "bds": {
+          "css": "space-5"
+        }
+      }
+    },
+    "6": {
+      "$value": "24px",
+      "$extensions": {
+        "bds": {
+          "css": "space-6"
+        }
+      }
+    },
+    "8": {
+      "$value": "32px",
+      "$extensions": {
+        "bds": {
+          "css": "space-8"
+        }
+      }
+    },
+    "16": {
+      "$value": "64px",
+      "$extensions": {
+        "bds": {
+          "css": "space-16"
+        }
+      }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "Scale of 4: spacing, gaps and radii are multiples of 4.",
+    "sm": {
+      "$value": "2px",
+      "$extensions": {
+        "bds": {
+          "css": "radius-sm"
+        }
+      }
+    },
+    "md": {
+      "$value": "4px",
+      "$extensions": {
+        "bds": {
+          "css": "radius-md"
+        }
+      }
+    },
+    "lg": {
+      "$value": "8px",
+      "$extensions": {
+        "bds": {
+          "css": "radius-lg"
+        }
+      }
+    }
+  },
+  "border": {
+    "$type": "dimension",
+    "$description": "Stroke widths, outside the scale of 4. Stay in px.",
+    "thin": {
+      "$value": "1px",
+      "$extensions": {
+        "bds": {
+          "css": "border-thin"
+        }
+      }
+    },
+    "medium": {
+      "$value": "2px",
+      "$extensions": {
+        "bds": {
+          "css": "border-medium"
+        }
+      }
+    },
+    "thick": {
+      "$value": "3px",
+      "$extensions": {
+        "bds": {
+          "css": "border-thick"
+        }
+      }
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "wrap": {
+      "$value": "1040px",
+      "$extensions": {
+        "bds": {
+          "css": "wrap"
+        }
+      },
+      "$description": "Max width of the page container."
+    },
+    "tick": {
+      "$value": "11px",
+      "$extensions": {
+        "bds": {
+          "css": "tick"
+        }
+      },
+      "$description": "Corner tick of cards (blueprint detail)."
+    },
+    "tick-hover": {
+      "$value": "22px",
+      "$extensions": {
+        "bds": {
+          "css": "tick-hover"
+        }
+      }
+    },
+    "grid": {
+      "$value": "24px",
+      "$extensions": {
+        "bds": {
+          "css": "grid-size"
+        }
+      },
+      "$description": "Blueprint grid, minor step."
+    },
+    "grid-major": {
+      "$value": "120px",
+      "$extensions": {
+        "bds": {
+          "css": "grid-major-size"
+        }
+      },
+      "$description": "Blueprint grid, major step."
+    },
+    "focus-offset": {
+      "$value": "3px",
+      "$extensions": {
+        "bds": {
+          "css": "focus-offset"
+        }
+      }
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Use as em in media queries (640px = 40em, 760px = 47.5em). CSS variables do not work in media queries.",
+    "sm": {
+      "$value": "640px",
+      "$extensions": {
+        "bds": {
+          "css": "bp-sm"
+        }
+      }
+    },
+    "md": {
+      "$value": "760px",
+      "$extensions": {
+        "bds": {
+          "css": "bp-md"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+/* Bereg DS base: page defaults, typography and text-style classes. Needs tokens.css.
+   Text-style classes mirror the Figma text styles (Display/H1 -> .text-h1, Mono/Caps -> .text-caps, ...). */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; color-scheme: dark; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--font-size-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg, video { max-width: 100%; height: auto; }
+img { display: block; }
+
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--highlight); text-decoration-thickness: 2px; }
+
+:focus-visible { outline: var(--border-thick) solid var(--focus); outline-offset: var(--focus-offset); border-radius: var(--radius-sm); }
+::selection { background: var(--selection); color: var(--selection-text); }
+
+/* Skip link: first element in <body>, visible on keyboard focus. */
+.skip {
+  position: absolute; left: var(--space-4); top: -100px; z-index: 10;
+  background: var(--accent); color: var(--accent-ink);
+  padding: var(--space-2) var(--space-4); border-radius: var(--radius-md);
+}
+.skip:focus { top: var(--space-4); }
+
+/* Page container: content width = --wrap minus side padding. */
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--space-6); }
+
+/* Headings */
+h1, h2, h3 { font-family: var(--font); margin: 0; }
+h1, .text-h1 { font-size: clamp(2.625rem, 1.5rem + 5vw, var(--font-size-display)); font-weight: var(--weight-bold); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); }
+h2, .text-h2 { font-size: clamp(1.75rem, 1.25rem + 2.4vw, var(--font-size-3xl)); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
+h3, .text-h3 { font-size: var(--font-size-lg); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: var(--tracking-snug); }
+p { margin: 0 0 var(--space-4); }
+
+/* Text styles (classes). Sizes in rem follow the user's browser font size. */
+.text-h1-subtitle { font-size: var(--font-size-2xl); font-weight: var(--weight-light); line-height: var(--leading-tight); letter-spacing: var(--tracking-snug); }
+.text-facts { font-size: var(--font-size-4xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: var(--tracking-tighter); }
+.text-h2-article { font-size: var(--font-size-2xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
+.text-post-title { font-size: var(--font-size-xl); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
+.text-brand { font-size: var(--font-size-base); font-weight: var(--weight-bold); letter-spacing: var(--tracking-tight); }
+.text-lede, .lede { font-size: clamp(1.125rem, 1rem + 0.6vw, var(--font-size-lg)); font-weight: var(--weight-light); line-height: var(--leading-snug); color: var(--muted); max-width: 62ch; }
+.text-lede-hero { font-size: var(--font-size-lg); font-weight: var(--weight-regular); line-height: var(--leading-snug); color: var(--text); max-width: 62ch; }
+.text-body { font-size: var(--font-size-base); line-height: var(--leading-body); }
+.text-small { font-size: var(--font-size-md); line-height: var(--leading-body); }
+.text-caption { font-size: var(--font-size-sm); line-height: var(--leading-body); }
+.text-strong { font-weight: var(--weight-bold); }
+.text-meta, .meta { font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-none); color: var(--muted); }
+.text-label { font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-label); }
+.text-caps { font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-caps); text-transform: uppercase; }
+.text-tag { font-family: var(--mono); font-size: var(--font-size-2xs); line-height: 1.3333; }
+.text-footnote { font-family: var(--mono); font-size: var(--font-size-2xs); letter-spacing: var(--tracking-note); }
+.text-code { font-family: var(--mono); font-size: var(--font-size-sm); line-height: var(--leading-snug); }
+.muted { color: var(--muted); }
+
+/* Blueprint grid background (opt-in): add class="blueprint" to <body> or a section.
+   Top of the area only, fades out downwards, crosshair dots on the major lines. Decorative. */
+.blueprint { position: relative; isolation: isolate; }
+.blueprint::before {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: min(1100px, 100%); z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, var(--grid-dot) 1.5px, transparent 2.5px);
+  background-size: var(--grid-size) var(--grid-size), var(--grid-size) var(--grid-size), var(--grid-major-size) var(--grid-major-size), var(--grid-major-size) var(--grid-major-size), var(--grid-major-size) var(--grid-major-size);
+  background-position: 0 0, 0 0, 0 0, 0 0, calc(var(--grid-major-size) / -2) calc(var(--grid-major-size) / -2);
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+  mask-image: linear-gradient(to bottom, #000, transparent);
+}
+
+/* Accessibility and print */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media (forced-colors: active) {
+  .blueprint::before { display: none; }
+}
+@media print {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .blueprint::before { display: none; }
+}
