@@ -35,13 +35,13 @@ Without React, use the same CSS classes in HTML (see README.md).
 ## Rules
 
 1. **Use components first.** Button, Link, NavLink, Tag/Tags, Card, Quote, BookPromo, FilterTabs, Sections/Section,
-   Facts, Timeline, PostList, Subhead, SiteHeader, SiteFooter. Do not restyle them per page.
+   Facts, Timeline, PostList, Subhead, SiteHeader, SiteFooter, Wrap. Do not restyle them per page.
 2. **Tokens only.** Colors: `var(--bg)`, `--surface`, `--text`, `--muted`, `--line`, `--line-strong`, `--accent`,
    `--accent-ink`, `--highlight`, `--focus`. Never hard-code hex colors or primitives (`--prim-*`).
 3. **Scale of 4.** Spacing, gaps and radii only from `--space-1` (4px) … `--space-16` (64px) and `--radius-sm|md|lg`.
    No 6px, 10px, 14px. Strokes `--border-thin|medium|thick` in px.
 4. **Type.** Use the text-style classes (`.text-h1`, `.text-h2`, `.text-h3`, `.text-lede`, `.text-body`, `.text-small`,
-   `.text-meta`, `.text-label`, `.text-caps`, `.text-tag`, `.text-code`) or `--font-size-*` tokens. Fonts: `var(--font)`,
+   `.text-meta`, `.text-label`, `.text-caps`, `.text-tag`, `.text-code`, `.text-footnote`, `.text-caption`, `.text-strong`) or `--font-size-*` tokens. Fonts: `var(--font)`,
    `var(--mono)`. Sizes in rem, line height unitless.
 5. **Accessibility.** Borders that identify an interactive element use `--line-strong`; `--line` is decorative.
    Keep the focus ring (`:focus-visible`, 3px `--focus`, offset 3px). Underline links. Every section has a heading
@@ -55,4 +55,5 @@ Without React, use the same CSS classes in HTML (see README.md).
 
 - Docs and live components: https://ds.bereg.dev
 - Figma: https://www.figma.com/design/nWkFlhkomx90UBXw6nFAQj
+- npm: https://www.npmjs.com/package/bereg-ds
 - Source: https://github.com/KonstantinBeregovoy/bereg-ds
