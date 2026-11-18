@@ -1,4 +1,5 @@
 import tokens from '../../dist/tokens/tokens.json';
+import tokensLight from '../../dist/tokens/tokens-light.json';
 
 /* Visual references for the foundations pages. Values come from the built tokens. */
 
@@ -6,18 +7,32 @@ const cssName: Record<string, string> = {
   shadow: 'shadow-color', glow: 'glow-color',
 };
 
-const contrastPairs: Array<[string, string, string]> = [
-  ['text', 'bg', '14.9:1'], ['muted', 'bg', '7.3:1'], ['accent', 'bg', '9.8:1'], ['highlight', 'bg', '10.2:1'],
-  ['accent-ink', 'accent', '10.0:1'], ['accent-ink', 'highlight', '10.4:1'], ['line-strong', 'bg', '3.4:1 (borders)'], ['line', 'bg', '1.5:1 (decorative only)'],
+const pairs: Array<[string, string, string?]> = [
+  ['text', 'bg'], ['text', 'surface'], ['muted', 'bg'], ['muted', 'surface'], ['accent', 'bg'], ['accent', 'surface'],
+  ['highlight', 'bg'], ['accent-ink', 'accent'], ['accent-ink', 'highlight'],
+  ['line-strong', 'bg', 'borders, 3:1'], ['line-strong', 'surface', 'borders, 3:1'], ['line', 'bg', 'decorative only'],
 ];
 
-export function ColorSwatches() {
-  const colors = tokens.color as Record<string, string>;
+const themes = { dark: tokens.color, light: tokensLight.color } as Record<'dark' | 'light', Record<string, string>>;
+
+/** WCAG 2 contrast ratio of two opaque hex colors. */
+function contrast(a: string, b: string) {
+  const lum = (hex: string) => {
+    const [r, g, bl] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+  };
+  const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+export function ColorSwatches({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
+  const colors = themes[theme];
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))', gap: 'var(--space-4)' }}>
       {Object.entries(colors).map(([name, value]) => (
         <div key={name} className="card" style={{ padding: 'var(--space-3)', gap: 'var(--space-2)' }}>
-          <div style={{ height: '3rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--line)', background: `var(--${cssName[name] ?? name})` }} />
+          <div style={{ height: '3rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--line)', background: value }} />
           <code className="text-meta" style={{ color: 'var(--text)' }}>--{cssName[name] ?? name}</code>
           <span className="text-meta">{value}</span>
         </div>
@@ -26,16 +41,18 @@ export function ColorSwatches() {
   );
 }
 
-export function ContrastTable() {
+/** Contrast is computed from the built token values, so the table cannot drift from the tokens. */
+export function ContrastTable({ theme = 'dark' }: { theme?: 'dark' | 'light' }) {
+  const c = themes[theme];
   return (
     <table className="prose" style={{ maxWidth: '40rem' }}>
       <thead><tr><th>Foreground</th><th>Background</th><th>Sample</th><th>Contrast</th></tr></thead>
       <tbody>
-        {contrastPairs.map(([fg, bg, ratio]) => (
+        {pairs.map(([fg, bg, note]) => (
           <tr key={fg + bg}>
             <td><code>--{fg}</code></td><td><code>--{bg}</code></td>
-            <td><span style={{ background: `var(--${bg})`, color: `var(--${fg})`, padding: '0.25rem 0.5rem', border: '1px solid var(--line)' }}>Aa 123</span></td>
-            <td>{ratio}</td>
+            <td><span style={{ background: c[bg], color: c[fg], padding: '0.25rem 0.5rem', border: `1px solid ${c.line}` }}>Aa 123</span></td>
+            <td>{contrast(c[fg], c[bg]).toFixed(1)}:1{note ? ` (${note})` : ''}</td>
           </tr>
         ))}
       </tbody>

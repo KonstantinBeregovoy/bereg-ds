@@ -1,0 +1,61 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Themes" />
+
+# Themes
+
+Dark is the default and needs nothing extra. The light theme is an **optional file**: projects that stay dark do not load it,
+so none of its code or colors end up in their CSS.
+
+Switch themes in the toolbar above (Dark, Light, System) to see every page and component in both.
+
+## Turn on the light theme
+
+```js
+import 'bereg-ds/bereg-ds.css';
+import 'bereg-ds/theme-light.css'; // after bereg-ds.css
+```
+
+```html
+<meta name="color-scheme" content="dark light" />
+```
+
+How the theme is picked:
+
+- No `data-theme` on `<html>`: follows the system setting (`prefers-color-scheme`).
+- `<html data-theme="light">`: light, whatever the system says.
+- `<html data-theme="dark">`: dark, whatever the system says.
+
+The file only overrides the semantic color tokens (`--bg`, `--text`, `--accent`...). Components do not change.
+
+## Remember the user's choice
+
+The switch and its storage belong to the project. Put this inline in `<head>`, before the CSS, so the page does not
+flash the wrong theme while loading:
+
+```html
+<script>
+  try {
+    const t = localStorage.getItem('theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch {}
+</script>
+```
+
+The switch itself:
+
+```js
+function setTheme(theme) { // 'light' | 'dark' | 'system'
+  const root = document.documentElement;
+  try {
+    if (theme === 'system') { delete root.dataset.theme; localStorage.removeItem('theme'); }
+    else { root.dataset.theme = theme; localStorage.setItem('theme', theme); }
+  } catch {}
+}
+```
+
+## Rules
+
+- Text contrast is 7:1 or more in both themes; interactive borders 3:1 or more (see Foundations / Colors).
+- Use only semantic tokens. A component that uses `--prim-*` will not follow the theme.
+- HDR accents are tuned for the dark theme; check them on light before using.

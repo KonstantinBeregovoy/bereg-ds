@@ -1,0 +1,138 @@
+{
+  "primitive": {
+    "light": {
+      "$type": "color",
+      "$description": "Light theme palette. Ships only in theme-light.css.",
+      "paper": {
+        "$value": "#f5f8fc",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-paper"
+          }
+        }
+      },
+      "slate-700": {
+        "$value": "#3d5170",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-slate-700"
+          }
+        }
+      },
+      "blue-700": {
+        "$value": "#08467f",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-blue-700"
+          }
+        }
+      },
+      "amber-800": {
+        "$value": "#7a4300",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-amber-800"
+          }
+        }
+      },
+      "line": {
+        "$value": "#d5deea",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-line"
+          }
+        }
+      },
+      "line-strong": {
+        "$value": "#72859f",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-line-strong"
+          }
+        }
+      },
+      "mix-amber-line": {
+        "$value": "#c19a6b",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-mix-amber-line"
+          }
+        }
+      },
+      "alpha": {
+        "blue-700-3": {
+          "$value": "#08467f08",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-3"
+            }
+          }
+        },
+        "blue-700-6": {
+          "$value": "#08467f0f",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-6"
+            }
+          }
+        },
+        "blue-700-8": {
+          "$value": "#08467f14",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-8"
+            }
+          }
+        },
+        "blue-700-10": {
+          "$value": "#08467f1a",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-10"
+            }
+          }
+        },
+        "blue-700-12": {
+          "$value": "#08467f1f",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-12"
+            }
+          }
+        },
+        "blue-700-18": {
+          "$value": "#08467f2e",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-18"
+            }
+          }
+        },
+        "blue-700-40": {
+          "$value": "#08467f66",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-blue-700-40"
+            }
+          }
+        },
+        "navy-850-15": {
+          "$value": "#0d182926",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-navy-850-15"
+            }
+          }
+        },
+        "paper-88": {
+          "$value": "#f5f8fce0",
+          "$extensions": {
+            "bds": {
+              "css": "prim-light-alpha-paper-88"
+            }
+          }
+        }
+      }
+    }
+  }
+}

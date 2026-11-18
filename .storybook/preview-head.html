@@ -1,4 +1,10 @@
 <style>
-  /* Storybook docs pages: keep the system background and fonts. */
-  .sbdocs-wrapper, .docs-story { background: #0a1220 !important; }
+  /* Storybook docs pages: use the system background, text color and fonts (follows the theme switch). */
+  .sbdocs-wrapper, .docs-story { background: var(--bg) !important; }
+  .sbdocs-wrapper .sbdocs-content { color: var(--text); }
+  .sbdocs-wrapper .sbdocs-content :is(h1, h2, h3, h4, h5, h6, p, li, td, th) { color: var(--text); }
+  .sbdocs-wrapper .sbdocs-content :is(tr, td, th) { border-color: var(--line) !important; background: transparent !important; }
+  .sbdocs-wrapper .sbdocs-content :is(p, li, td, th) > code { color: var(--text) !important; background: var(--surface) !important; border-color: var(--line) !important; }
+  /* Prism uses class "tag" for HTML tags; do not let the .tag component style code. */
+  .sbdocs-wrapper pre .token.tag { border: 0; padding: 0; border-radius: 0; background: none; font: inherit; letter-spacing: inherit; }
 </style>

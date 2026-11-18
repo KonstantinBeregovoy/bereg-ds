@@ -3,6 +3,13 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
+## 1.1.0 (unreleased)
+
+- Optional light theme: `bereg-ds/theme-light.css` (not part of `bereg-ds.css`). Follows `prefers-color-scheme`
+  unless `<html data-theme="light|dark">` is set. Text contrast 7:1 or more, interactive borders 3:1 or more.
+- Light tokens in `tokens/themes/light/*.json` (DTCG) and `bereg-ds/tokens-light.json`.
+- Storybook: theme switch in the toolbar (Dark, Light, System), Foundations / Themes page, contrast computed from tokens.
+
 ## 1.0.0 (2026-11-17)
 
 First release.

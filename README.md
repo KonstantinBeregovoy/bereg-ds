@@ -44,6 +44,20 @@ Import only what you need:
 | `bereg-ds/base.css` | Page defaults, headings, text-style classes (`.text-h1`, `.text-meta`...), `.blueprint` grid |
 | `bereg-ds/components.css` | Components: `.btn`, `.card`, `.quote`, `.tag`, `.filter-tab`, `.section-head`, `.subhead`, `.facts`, `.timeline`, `.posts`, `.book-promo`, `.site-header`, `.site-footer`, `.prose`, `.wrap` |
 | `bereg-ds/hdr.css` | Optional HDR accents (`.hdr-logo`, `.hdr-card`) |
+| `bereg-ds/theme-light.css` | Optional light theme (see below) |
+
+## Light theme (optional)
+
+Dark is the default. Projects that need a light theme add one file; projects that stay dark do not load it.
+
+```js
+import 'bereg-ds/bereg-ds.css';
+import 'bereg-ds/theme-light.css';
+```
+
+It follows the system setting (`prefers-color-scheme`). `<html data-theme="light">` or `data-theme="dark"` overrides it.
+The switch, `localStorage` and a small inline script against the flash on load are up to the project:
+see [Foundations / Themes](https://ds.bereg.dev/?path=/docs/foundations-themes--docs).
 
 ## Use with React
 
@@ -72,9 +86,10 @@ Components: `Button`, `Link`, `NavLink`, `Tag`, `Tags`, `Card`, `Quote`, `BookPr
 ```js
 import { colorAccent, space4 } from 'bereg-ds/tokens'; // px values
 import tokens from 'bereg-ds/tokens.json';
+import light from 'bereg-ds/tokens-light.json'; // light theme colors
 ```
 
-The source tokens (W3C DTCG format) are in `tokens/*.json`.
+The source tokens (W3C DTCG format) are in `tokens/*.json`, the light theme in `tokens/themes/light/*.json`.
 
 ## Rules of the system
 
@@ -87,7 +102,7 @@ The source tokens (W3C DTCG format) are in `tokens/*.json`.
 4. **Accessibility.** Text contrast 7:1 or more. Interactive borders use `--line-strong` (3:1 or more),
    `--line` is decorative only. Visible focus on every interactive element. Links are underlined.
    Respects `prefers-reduced-motion` and `forced-colors`.
-5. **Dark theme only** for now.
+5. **Dark by default.** The light theme is an optional file with the same token names.
 6. **HDR is an optional accent**, not a default.
 7. **Exceptions belong to the project.** A special case lives in that project's CSS, not in the system.
 
