@@ -3,7 +3,7 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
-## 1.0.0 (unreleased)
+## 1.0.0 (2026-11-17)
 
 First release.
 

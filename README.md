@@ -5,7 +5,9 @@ Design tokens, CSS components and React components from one source.
 
 - **Docs and live components:** [ds.bereg.dev](https://ds.bereg.dev) (Storybook)
 - **Figma:** [Bereg DS](https://www.figma.com/design/nWkFlhkomx90UBXw6nFAQj)
+- **npm:** [bereg-ds](https://www.npmjs.com/package/bereg-ds)
 - **Live example:** [bereg.dev](https://bereg.dev)
+- **Case study:** [bereg.dev/projects/bereg-ds](https://bereg.dev/projects/bereg-ds/)
 
 ## Install
 
@@ -40,7 +42,7 @@ Import only what you need:
 | `bereg-ds/fonts.css` | IBM Plex Sans (variable) and Mono 400, metric-matched fallbacks |
 | `bereg-ds/tokens.css` | CSS variables: colors, spacing, radii, type scale, motion |
 | `bereg-ds/base.css` | Page defaults, headings, text-style classes (`.text-h1`, `.text-meta`...), `.blueprint` grid |
-| `bereg-ds/components.css` | Components: `.btn`, `.card`, `.quote`, `.tag`, `.filter-tab`, `.section-head`, `.facts`, `.timeline`, `.posts`, `.site-header`, `.site-footer`, `.prose` |
+| `bereg-ds/components.css` | Components: `.btn`, `.card`, `.quote`, `.tag`, `.filter-tab`, `.section-head`, `.subhead`, `.facts`, `.timeline`, `.posts`, `.book-promo`, `.site-header`, `.site-footer`, `.prose`, `.wrap` |
 | `bereg-ds/hdr.css` | Optional HDR accents (`.hdr-logo`, `.hdr-card`) |
 
 ## Use with React
@@ -80,7 +82,8 @@ The source tokens (W3C DTCG format) are in `tokens/*.json`.
    Strokes (1/2/3px), corner ticks (11/22px) and breakpoints (640/760px) are separate sizes.
 2. **Tokens only.** No raw colors or pixel spacing in components (a test checks it).
 3. **Units.** Font sizes and spacing in rem, line height without units, letter spacing in em, strokes in px,
-   breakpoints in em (`40em`, `47.5em`).
+   breakpoints in em in media queries (`40em`, `47.5em`). The `--bp-sm`/`--bp-md` tokens (640/760px) are for reference:
+   CSS variables do not work in media queries.
 4. **Accessibility.** Text contrast 7:1 or more. Interactive borders use `--line-strong` (3:1 or more),
    `--line` is decorative only. Visible focus on every interactive element. Links are underlined.
    Respects `prefers-reduced-motion` and `forced-colors`.
@@ -90,6 +93,8 @@ The source tokens (W3C DTCG format) are in `tokens/*.json`.
 
 ## Develop
 
+Node version is pinned in `.nvmrc` (`nvm use`).
+
 ```sh
 npm install
 npm run build        # tokens -> dist/css/tokens.css + dist/tokens, CSS, React
@@ -98,6 +103,16 @@ npm run storybook    # docs and live components on http://localhost:6006
 ```
 
 Change tokens in Figma first, then in `tokens/*.json`, then run `npm run build`.
+
+## Release
+
+```sh
+npm login
+npm publish          # prepublishOnly runs build and tests
+```
+
+Update `CHANGELOG.md` and the version in `package.json` first.
+Storybook (ds.bereg.dev) deploys automatically on push to `main`.
 
 ## License
 
