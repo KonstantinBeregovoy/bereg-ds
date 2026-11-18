@@ -120,12 +120,14 @@ describe('Light theme', () => {
     expect(css).toMatch(/@media \(prefers-color-scheme: light\)\s*{\s*:root:not\(\[data-theme="dark"\]\)/);
     expect(css).toMatch(/:root\[data-theme="light"\]/);
   });
-  it('keeps text contrast 7:1 and interactive borders 3:1', () => {
-    for (const [fg, bg] of [['text', 'bg'], ['text', 'surface'], ['muted', 'bg'], ['muted', 'surface'], ['accent', 'bg'],
+  it('keeps text contrast 7:1 and interactive borders 3:1 in both themes', () => {
+    for (const t of [dark, light]) for (const [fg, bg] of [['text', 'bg'], ['text', 'surface'], ['muted', 'bg'], ['muted', 'surface'], ['accent', 'bg'],
       ['accent', 'surface'], ['highlight', 'bg'], ['accent-ink', 'accent'], ['accent-ink', 'highlight']]) {
-      expect(ratio(light[fg], light[bg]), `${fg} on ${bg}`).toBeGreaterThanOrEqual(7);
+      expect(ratio(t[fg], t[bg]), `${fg} on ${bg}`).toBeGreaterThanOrEqual(7);
     }
-    expect(ratio(light['line-strong'], light.bg)).toBeGreaterThanOrEqual(3);
-    expect(ratio(light['line-strong'], light.surface)).toBeGreaterThanOrEqual(3);
+    for (const t of [dark, light]) {
+      expect(ratio(t['line-strong'], t.bg)).toBeGreaterThanOrEqual(3);
+      expect(ratio(t['line-strong'], t.surface)).toBeGreaterThanOrEqual(3);
+    }
   });
 });
