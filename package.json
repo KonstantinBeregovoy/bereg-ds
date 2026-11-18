@@ -58,7 +58,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "npm run build && storybook build -o storybook-static",
+    "build-storybook": "npm run build && storybook build -o storybook-static && node scripts/seo-head.mjs",
     "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
