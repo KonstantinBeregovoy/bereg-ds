@@ -17,7 +17,7 @@ addons.setConfig({
     appPreviewBg: '#0a1220',
     appBorderColor: '#1f3350',
     textColor: '#dbe6f5',
-    textMutedColor: '#8ea3bf',
+    textMutedColor: '#91a6c2',
     barBg: '#0d1829',
     inputBg: '#0d1829',
     inputBorder: '#4d6a8f',

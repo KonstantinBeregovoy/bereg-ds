@@ -8,6 +8,10 @@ a breaking change to a token name, a class name or a component prop is a major v
 - Optional light theme: `bereg-ds/theme-light.css` (not part of `bereg-ds.css`). Follows `prefers-color-scheme`
   unless `<html data-theme="light|dark">` is set. Text contrast 7:1 or more, interactive borders 3:1 or more.
 - Light tokens in `tokens/themes/light/*.json` (DTCG) and `bereg-ds/tokens-light.json`.
+- Dark theme: `--muted` (`--prim-slate-400`) #8ea3bf → #91a6c2, so muted text on `--surface` is 7.2:1 (was 6.9:1).
+- Storybook: docs pages (MDX) follow the theme switch too (before, they followed the system setting); docs links use `--accent`;
+  code colors in docs raised to 7:1; contrast table shows border colors as lines, not as text.
+- Tests: contrast for both themes, including hover, selection, header and focus colors.
 - Storybook: theme switch in the toolbar (Dark, Light, System), Foundations / Themes page, contrast computed from tokens.
 
 ## 1.0.0 (2026-11-17)

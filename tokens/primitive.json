@@ -47,7 +47,7 @@
       },
       "slate": {
         "400": {
-          "$value": "#8ea3bf",
+          "$value": "#91a6c2",
           "$extensions": {
             "bds": {
               "css": "prim-slate-400"
