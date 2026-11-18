@@ -126,8 +126,27 @@ describe('Light theme', () => {
       expect(ratio(t[fg], t[bg]), `${fg} on ${bg}`).toBeGreaterThanOrEqual(7);
     }
     for (const t of [dark, light]) {
-      expect(ratio(t['line-strong'], t.bg)).toBeGreaterThanOrEqual(3);
-      expect(ratio(t['line-strong'], t.surface)).toBeGreaterThanOrEqual(3);
+      for (const ui of ['line-strong', 'focus', 'accent', 'highlight']) {
+        expect(ratio(t[ui], t.bg), `${ui} vs bg`).toBeGreaterThanOrEqual(3);
+        expect(ratio(t[ui], t.surface), `${ui} vs surface`).toBeGreaterThanOrEqual(3);
+      }
+    }
+  });
+  it('keeps 7:1 on translucent backgrounds (hover, selection, header)', () => {
+    // Token values are hex or rgba(); blend the alpha color over the page background.
+    const rgb = (v: string) => v.startsWith('#')
+      ? { c: [1, 3, 5].map((i) => parseInt(v.slice(i, i + 2), 16)), a: 1 }
+      : (([r, g, b, a = 1]) => ({ c: [r, g, b], a }))(v.match(/[\d.]+/g)!.map(Number));
+    const hex = (c: number[]) => '#' + c.map((x) => Math.round(x).toString(16).padStart(2, '0')).join('');
+    const over = (top: string, under: string) => {
+      const t = rgb(top), u = rgb(under);
+      return hex(t.c.map((x, i) => x * t.a + u.c[i] * (1 - t.a)));
+    };
+    for (const t of [dark, light]) for (const base of [t.bg, t.surface]) {
+      expect(ratio(t.accent, over(t['accent-subtle'], base)), 'accent on accent-subtle').toBeGreaterThanOrEqual(7);
+      expect(ratio(t['selection-text'], over(t.selection, base)), 'selection').toBeGreaterThanOrEqual(7);
+      expect(ratio(t.muted, over(t['header-bg'], base)), 'muted on header').toBeGreaterThanOrEqual(7);
+      expect(ratio(t.highlight, base), 'highlight').toBeGreaterThanOrEqual(7);
     }
   });
 });

@@ -51,7 +51,12 @@ export function ContrastTable({ theme = 'dark' }: { theme?: 'dark' | 'light' }) 
         {pairs.map(([fg, bg, note]) => (
           <tr key={fg + bg}>
             <td><code>--{fg}</code></td><td><code>--{bg}</code></td>
-            <td><span style={{ background: c[bg], color: c[fg], padding: '0.25rem 0.5rem', border: `1px solid ${c.line}` }}>Aa 123</span></td>
+            <td>
+              {note
+                ? /* Non-text color (border/line): shown as a line, not as text, so it is not mistaken for low-contrast text. */
+                  <span role="img" aria-label={`--${fg} line on --${bg}`} style={{ display: 'inline-block', width: '4.5rem', height: '1.75rem', background: c[bg], boxShadow: `inset 0 0 0 2px ${c[fg]}` }} />
+                : <span style={{ background: c[bg], color: c[fg], padding: '0.25rem 0.5rem', border: `1px solid ${c.line}` }}>Aa 123</span>}
+            </td>
             <td>{contrast(c[fg], c[bg]).toFixed(1)}:1{note ? ` (${note})` : ''}</td>
           </tr>
         ))}

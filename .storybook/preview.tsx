@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 import { themes } from 'storybook/theming';
+import { addons } from 'storybook/preview-api';
 import { DocsLayout, DocsLink } from './DocsLayout';
 
 // The same CSS a project imports: fonts, tokens, base, components, HDR accents.
@@ -10,6 +11,20 @@ import '../src/css/components.css';
 import '../src/css/hdr.css';
 // Optional light theme: in a project it is imported only when needed.
 import '../dist/css/theme-light.css';
+
+/** Sets data-theme on <html>: 'system' removes it, so the light file follows prefers-color-scheme. */
+function applyTheme(theme: unknown) {
+  const root = document.documentElement;
+  if (theme === 'system') root.removeAttribute('data-theme');
+  else root.dataset.theme = theme === 'light' ? 'light' : 'dark';
+}
+
+// Docs-only pages (MDX) do not run decorators, so follow the toolbar through the channel too. Dark until told otherwise.
+applyTheme('dark');
+const channel = addons.getChannel();
+for (const event of ['setGlobals', 'globalsUpdated']) {
+  channel.on(event, ({ globals }: { globals?: { theme?: string } }) => applyTheme(globals?.theme ?? 'dark'));
+}
 
 const preview: Preview = {
   // Theme switch in the toolbar: Dark (default, as on bereg.dev), Light, or System (follows the OS setting).
@@ -31,9 +46,7 @@ const preview: Preview = {
   initialGlobals: { theme: 'dark' },
   decorators: [
     (Story, { globals }) => {
-      const root = document.documentElement;
-      if (globals.theme === 'system') root.removeAttribute('data-theme');
-      else root.dataset.theme = globals.theme ?? 'dark';
+      applyTheme(globals.theme ?? 'dark');
       return <Story />;
     },
   ],
