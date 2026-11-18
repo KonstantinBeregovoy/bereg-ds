@@ -1,0 +1,32 @@
+# Bereg DS
+
+> Open-source design system by Konstantin Beregovoy, the "Engineering Blueprint" style of bereg.dev. Figma library, DTCG design tokens, a CSS core and React components, published on npm as `bereg-ds` under the MIT license.
+
+Install: `npm i bereg-ds`. Import `bereg-ds/bereg-ds.css` for fonts, tokens, base styles and components; import React components from `bereg-ds/react` (React is optional). Plain HTML works with the same classes, for example `<a class="btn btn-primary" href="/projects/">Projects</a>`.
+
+Rules:
+- Strict 4px scale: spacing, gaps and radii are multiples of 4 (`--space-1` = 4px ... `--space-16` = 64px).
+- Tokens only: components never use raw colors or pixel spacing; a test enforces it.
+- Units: font sizes and spacing in rem, line height without units, letter spacing in em, strokes in px, breakpoints in em.
+- Accessibility: text contrast at least 7:1 (WCAG AAA for contrast), interactive borders at least 3:1, a visible focus ring on every interactive component, underlined links.
+- Dark theme only for now. HDR is an optional accent, never a default.
+- Fonts: IBM Plex Sans and IBM Plex Mono, self-hosted through Fontsource.
+
+Components: Button, Link, Nav Link, Tag, Card, Quote, Filter Tabs, Book Promo, Section, Facts, Timeline, Post List, Site Header, Site Footer.
+
+## Docs
+
+- [Storybook documentation](https://ds.bereg.dev/): rules, colors, typography, spacing, HDR, all components and a full page built from components.
+- [README](https://github.com/KonstantinBeregovoy/bereg-ds/blob/main/README.md): install and usage.
+- [SKILL.md](https://github.com/KonstantinBeregovoy/bereg-ds/blob/main/SKILL.md): instructions for AI agents that build UI with Bereg DS.
+
+## Sources
+
+- [npm package](https://www.npmjs.com/package/bereg-ds)
+- [GitHub repository](https://github.com/KonstantinBeregovoy/bereg-ds)
+- [Figma library](https://www.figma.com/design/nWkFlhkomx90UBXw6nFAQj)
+
+## Optional
+
+- [Project page on bereg.dev](https://bereg.dev/projects/bereg-ds/)
+- [Author: Konstantin Beregovoy](https://bereg.dev)
