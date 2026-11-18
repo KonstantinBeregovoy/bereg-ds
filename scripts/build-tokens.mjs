@@ -1,5 +1,7 @@
 // Builds tokens/*.json (DTCG) into dist/css/tokens.css (rem) and dist/tokens/* (JSON, ESM, d.ts, px).
+// The optional light theme (tokens/themes/light/*.json) is built into dist/css/theme-light.css only.
 import StyleDictionary from 'style-dictionary';
+import { formattedVariables } from 'style-dictionary/utils';
 
 const BASE_PX = 16;
 // Token groups that become rem in CSS. Borders, ticks, sizes and breakpoints stay px.
@@ -32,7 +34,7 @@ const header = [
 ];
 
 const sd = new StyleDictionary({
-  source: ['tokens/**/*.json'],
+  source: ['tokens/*.json'],
   usesDtcg: true,
   log: { verbosity: 'default', warnings: 'warn' },
   platforms: {
@@ -61,5 +63,52 @@ const sd = new StyleDictionary({
   },
 });
 
+// Light theme: system setting by default, an explicit data-theme on <html> wins.
+// Only tokens from tokens/themes/light/*.json are written; the dark tokens stay the defaults in tokens.css.
+StyleDictionary.registerFormat({
+  name: 'bds/theme-light',
+  format: ({ dictionary, options }) => {
+    const vars = formattedVariables({ format: 'css', dictionary, outputReferences: true, usesDtcg: true, formatting: { indentation: '    ' } });
+    const block = `    color-scheme: light;\n${vars}`;
+    return [
+      '/**',
+      ' * Bereg DS light theme (optional). Generated from tokens/themes/light/*.json. Do not edit by hand.',
+      ' * Import after bereg-ds.css. Follows the system setting unless <html data-theme="light|dark"> is set.',
+      ' */',
+      '@media (prefers-color-scheme: light) {',
+      '  :root:not([data-theme="dark"]) {',
+      block,
+      '  }',
+      '}',
+      '',
+      ':root[data-theme="light"] {',
+      block.replace(/^  /gm, ''),
+      '}',
+      '',
+    ].join('\n');
+  },
+});
+
+const light = new StyleDictionary({
+  include: ['tokens/*.json'],
+  source: ['tokens/themes/light/*.json'],
+  usesDtcg: true,
+  // References to dark primitives (--prim-white, --prim-navy-850) are intentional: they live in tokens.css.
+  log: { verbosity: 'default', warnings: 'disabled' },
+  platforms: {
+    css: {
+      transforms: ['attribute/cti', 'bds/name', 'color/css'],
+      buildPath: 'dist/css/',
+      files: [{ destination: 'theme-light.css', format: 'bds/theme-light', filter: (token) => token.isSource }],
+    },
+    js: {
+      transforms: ['attribute/cti', 'name/camel', 'color/css'],
+      buildPath: 'dist/tokens/',
+      files: [{ destination: 'tokens-light.json', format: 'json/nested', filter: (token) => token.isSource && token.path[0] === 'color' }],
+    },
+  },
+});
+
 await sd.cleanAllPlatforms();
 await sd.buildAllPlatforms();
+await light.buildAllPlatforms();

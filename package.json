@@ -1,6 +1,6 @@
 {
   "name": "bereg-ds",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Bereg DS: the Engineering Blueprint design system by Konstantin Beregovoy. Design tokens, CSS components and React components.",
   "license": "MIT",
   "author": "Konstantin Beregovoy (https://bereg.dev)",
@@ -38,12 +38,14 @@
     "./base.css": "./dist/css/base.css",
     "./components.css": "./dist/css/components.css",
     "./hdr.css": "./dist/css/hdr.css",
+    "./theme-light.css": "./dist/css/theme-light.css",
     "./bereg-ds.css": "./dist/css/bereg-ds.css",
     "./tokens": {
       "types": "./dist/tokens/tokens.d.ts",
       "default": "./dist/tokens/tokens.js"
     },
     "./tokens.json": "./dist/tokens/tokens.json",
+    "./tokens-light.json": "./dist/tokens/tokens-light.json",
     "./react": {
       "types": "./dist/react/index.d.ts",
       "default": "./dist/react/index.js"

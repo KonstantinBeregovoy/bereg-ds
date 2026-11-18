@@ -1,0 +1,193 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{primitive.light.paper}",
+      "$extensions": {
+        "bds": {
+          "css": "bg"
+        }
+      }
+    },
+    "surface": {
+      "$value": "{primitive.color.white}",
+      "$extensions": {
+        "bds": {
+          "css": "surface"
+        }
+      }
+    },
+    "text": {
+      "$value": "{primitive.color.navy.850}",
+      "$extensions": {
+        "bds": {
+          "css": "text"
+        }
+      }
+    },
+    "muted": {
+      "$value": "{primitive.light.slate-700}",
+      "$extensions": {
+        "bds": {
+          "css": "muted"
+        }
+      }
+    },
+    "line": {
+      "$value": "{primitive.light.line}",
+      "$extensions": {
+        "bds": {
+          "css": "line"
+        }
+      },
+      "$description": "Decorative lines only."
+    },
+    "line-strong": {
+      "$value": "{primitive.light.line-strong}",
+      "$extensions": {
+        "bds": {
+          "css": "line-strong"
+        }
+      },
+      "$description": "Borders of interactive elements, >=3:1 on bg and surface (WCAG 1.4.11)."
+    },
+    "line-hover": {
+      "$value": "{primitive.light.mix-amber-line}",
+      "$extensions": {
+        "bds": {
+          "css": "line-hover"
+        }
+      }
+    },
+    "accent": {
+      "$value": "{primitive.light.blue-700}",
+      "$extensions": {
+        "bds": {
+          "css": "accent"
+        }
+      },
+      "$description": "Links, primary actions, focus."
+    },
+    "accent-ink": {
+      "$value": "{primitive.color.white}",
+      "$extensions": {
+        "bds": {
+          "css": "accent-ink"
+        }
+      }
+    },
+    "accent-subtle": {
+      "$value": "{primitive.light.alpha.blue-700-8}",
+      "$extensions": {
+        "bds": {
+          "css": "accent-subtle"
+        }
+      }
+    },
+    "highlight": {
+      "$value": "{primitive.light.amber-800}",
+      "$extensions": {
+        "bds": {
+          "css": "highlight"
+        }
+      },
+      "$description": "Hover of primary actions, section numbers, current filter."
+    },
+    "focus": {
+      "$value": "{primitive.light.blue-700}",
+      "$extensions": {
+        "bds": {
+          "css": "focus"
+        }
+      }
+    },
+    "selection": {
+      "$value": "{primitive.light.alpha.blue-700-18}",
+      "$extensions": {
+        "bds": {
+          "css": "selection"
+        }
+      }
+    },
+    "selection-text": {
+      "$value": "{primitive.color.navy.850}",
+      "$extensions": {
+        "bds": {
+          "css": "selection-text"
+        }
+      }
+    },
+    "header-bg": {
+      "$value": "{primitive.light.alpha.paper-88}",
+      "$extensions": {
+        "bds": {
+          "css": "header-bg"
+        }
+      }
+    },
+    "grid": {
+      "$value": "{primitive.light.alpha.blue-700-6}",
+      "$extensions": {
+        "bds": {
+          "css": "grid"
+        }
+      }
+    },
+    "grid-major": {
+      "$value": "{primitive.light.alpha.blue-700-10}",
+      "$extensions": {
+        "bds": {
+          "css": "grid-major"
+        }
+      }
+    },
+    "grid-dot": {
+      "$value": "{primitive.light.alpha.blue-700-40}",
+      "$extensions": {
+        "bds": {
+          "css": "grid-dot"
+        }
+      }
+    },
+    "lamp-grid": {
+      "$value": "{primitive.light.alpha.blue-700-12}",
+      "$extensions": {
+        "bds": {
+          "css": "lamp-grid"
+        }
+      }
+    },
+    "lamp-grid-major": {
+      "$value": "{primitive.light.alpha.blue-700-18}",
+      "$extensions": {
+        "bds": {
+          "css": "lamp-grid-major"
+        }
+      }
+    },
+    "lamp-glow": {
+      "$value": "{primitive.light.alpha.blue-700-3}",
+      "$extensions": {
+        "bds": {
+          "css": "lamp-glow"
+        }
+      }
+    },
+    "shadow": {
+      "$value": "{primitive.light.alpha.navy-850-15}",
+      "$extensions": {
+        "bds": {
+          "css": "shadow-color"
+        }
+      }
+    },
+    "glow": {
+      "$value": "{primitive.light.alpha.blue-700-8}",
+      "$extensions": {
+        "bds": {
+          "css": "glow-color"
+        }
+      }
+    }
+  }
+}

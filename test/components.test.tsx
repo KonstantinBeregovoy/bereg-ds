@@ -93,3 +93,39 @@ describe('CSS follows the system rules', () => {
     expect(bad).toEqual([]);
   });
 });
+
+describe('Light theme', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const dark = JSON.parse(read('../dist/tokens/tokens.json')).color as Record<string, string>;
+  const light = JSON.parse(read('../dist/tokens/tokens-light.json')).color as Record<string, string>;
+  const lum = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const ratio = (a: string, b: string) => {
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  it('is not part of the default bundle', () => {
+    expect(read('../src/css/bereg-ds.css')).not.toMatch(/theme-light/);
+    expect(read('../dist/css/tokens.css')).not.toMatch(/prim-light/);
+  });
+  it('overrides every semantic color, nothing else', () => {
+    expect(Object.keys(light).sort()).toEqual(Object.keys(dark).sort());
+  });
+  it('follows the system unless data-theme is set', () => {
+    const css = read('../dist/css/theme-light.css');
+    expect(css).toMatch(/@media \(prefers-color-scheme: light\)\s*{\s*:root:not\(\[data-theme="dark"\]\)/);
+    expect(css).toMatch(/:root\[data-theme="light"\]/);
+  });
+  it('keeps text contrast 7:1 and interactive borders 3:1', () => {
+    for (const [fg, bg] of [['text', 'bg'], ['text', 'surface'], ['muted', 'bg'], ['muted', 'surface'], ['accent', 'bg'],
+      ['accent', 'surface'], ['highlight', 'bg'], ['accent-ink', 'accent'], ['accent-ink', 'highlight']]) {
+      expect(ratio(light[fg], light[bg]), `${fg} on ${bg}`).toBeGreaterThanOrEqual(7);
+    }
+    expect(ratio(light['line-strong'], light.bg)).toBeGreaterThanOrEqual(3);
+    expect(ratio(light['line-strong'], light.surface)).toBeGreaterThanOrEqual(3);
+  });
+});
