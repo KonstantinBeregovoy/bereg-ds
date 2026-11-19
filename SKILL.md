@@ -52,7 +52,9 @@ Without React, use the same CSS classes in HTML (see README.md).
 7. **HDR only when asked**, for one accent at a time, always with an SDR fallback (`hdr.css`).
 8. **Page layout.** Put `class="page"` on `<body>` with `<main>`, `.site-header` and `.site-footer` as its direct
    children, so the footer sits at the bottom of short pages: `body.page > a.skip, header.site-header, main, footer.site-footer`.
-9. **Exceptions stay in the project.** If a design needs a value the system does not have, put it in the project's
+9. **Link text in prose.** Use short link text ("GitHub", "glow.bereg.dev", the article title), not the full URL.
+   If a long URL or path is left in `.prose`, it wraps anywhere instead of overflowing the column.
+10. **Exceptions stay in the project.** If a design needs a value the system does not have, put it in the project's
    own CSS with a comment, and tell Konstantin. Do not edit the package for one project.
 
 ## Links

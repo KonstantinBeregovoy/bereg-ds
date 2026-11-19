@@ -217,3 +217,26 @@ describe('Page layout', () => {
     expect(print).toMatch(/\.page\s*{\s*display:\s*block;\s*min-height:\s*0/);
   });
 });
+
+describe('Prose long words', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/components.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  it('links and inline code wrap anywhere, pre keeps its scroll', () => {
+    expect(css).toMatch(/\.prose a, \.prose :not\(pre\) > code\s*{\s*overflow-wrap:\s*anywhere;?\s*}/);
+    expect(css).toMatch(/\.prose pre\s*{[^}]*overflow-x:\s*auto/);
+  });
+  it('the rule is scoped to .prose', () => {
+    const bad = css.split('\n').filter((l) => /overflow-wrap:\s*anywhere/.test(l) && !/^\.prose /.test(l.trim()));
+    expect(bad).toEqual([]);
+  });
+});
+
+describe('Grids on narrow screens', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/components.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  it('every minmax() column shrinks to the container: minmax(min(<size>, 100%), 1fr)', () => {
+    const all = css.match(/minmax\([^;]*?\)\s*,\s*1fr\)|minmax\([^()]*\)/g) ?? [];
+    expect(all.length).toBeGreaterThanOrEqual(5);
+    for (const m of all) expect(m, m).toMatch(/^minmax\(min\([\d.]+rem, 100%\), 1fr\)$/);
+  });
+});

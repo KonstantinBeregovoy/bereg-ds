@@ -65,6 +65,22 @@ on a longer page it follows the content, as usual. Without the class nothing cha
 - Works with `.blueprint` on the same element, with `.skip` and with `position: fixed` elements (they stay out of the flow).
 - In print the layout is turned off: no stretched page, the footer follows the content.
 
+## Prose: article text
+
+Wrap article content (Markdown output) in `.prose`: headings, lists, quotes, inline `code`, `pre`, tables and images get the system styles,
+text width up to `68ch`.
+
+```html
+<article class="prose">
+  <h2>Why it matters</h2>
+  <p>Source code on <a href="https://github.com/KonstantinBeregovoy/hdr-glow">GitHub</a>.</p>
+</article>
+```
+
+- Prefer short link text ("GitHub", "glow.bereg.dev", the article title), not the full URL.
+- If a long URL, path or token without spaces is left in a link or in inline `code`, it wraps anywhere instead of overflowing
+  the column on narrow screens. `pre` keeps its horizontal scroll.
+
 ## Fonts
 
 `fonts.css` links the font files with relative URLs (`../fonts/*.woff2`), so bundlers (Vite, Astro, webpack) copy them as assets.
