@@ -15,7 +15,7 @@ Design tokens, CSS components and React components from one source.
 npm i bereg-ds
 ```
 
-IBM Plex Sans and Mono come with it (self-hosted through Fontsource, no Google Fonts).
+IBM Plex Sans and Mono come with it: self-hosted woff2 files in `bereg-ds/fonts/`, no Google Fonts, no extra dependencies.
 
 ## Use with CSS (any project: Astro, plain HTML, Vue...)
 
@@ -39,12 +39,40 @@ Import only what you need:
 
 | File | What |
 |---|---|
-| `bereg-ds/fonts.css` | IBM Plex Sans (variable) and Mono 400, metric-matched fallbacks |
+| `bereg-ds/fonts.css` | IBM Plex Sans (variable, 300 to 700) and Mono 400, metric-matched fallbacks |
 | `bereg-ds/tokens.css` | CSS variables: colors, spacing, radii, type scale, motion |
 | `bereg-ds/base.css` | Page defaults, headings, text-style classes (`.text-h1`, `.text-meta`...), `.blueprint` grid |
 | `bereg-ds/components.css` | Components: `.btn`, `.card`, `.quote`, `.tag`, `.filter-tab`, `.section-head`, `.subhead`, `.facts`, `.timeline`, `.posts`, `.book-promo`, `.site-header`, `.site-footer`, `.prose`, `.wrap` |
 | `bereg-ds/hdr.css` | Optional HDR accents (`.hdr-logo`, `.hdr-card`) |
 | `bereg-ds/theme-light.css` | Optional light theme (see below) |
+
+## Fonts
+
+`fonts.css` links the font files with relative URLs (`../fonts/*.woff2`), so bundlers (Vite, Astro, webpack) copy them as assets.
+Subsets: latin, latin-ext, cyrillic. Each is a separate file with its own `unicode-range`: a page in English loads only the Latin files.
+Other scripts (Greek, Vietnamese...) fall back to the system font.
+
+| Font | Weights | Latin file |
+|---|---|---|
+| IBM Plex Sans (variable) | 300 to 700, normal | `plex-sans-latin-wght.woff2` (~39 KB) |
+| IBM Plex Mono | 400, normal | `plex-mono-latin-400.woff2` (~10 KB) |
+
+Hinting is removed (smaller files; modern browsers smooth the glyphs themselves). There is no italic and no other Mono weight:
+`<em>` gets a slanted Sans, bold inside `<code>` gets a synthesized bold.
+
+**Preload the main font** so text renders in Plex sooner. With Vite, `?url` gives the same hashed URL that the CSS uses,
+so the file is downloaded once:
+
+```js
+import plexSans from 'bereg-ds/fonts/plex-sans-latin-wght.woff2?url';
+```
+
+```html
+<link rel="preload" href="{plexSans}" as="font" type="font/woff2" crossorigin>
+```
+
+`crossorigin` is required even on the same origin: without it the browser downloads the font twice.
+Preload only the Latin Sans file; other files load when a page needs them.
 
 ## Light theme (optional)
 
@@ -131,4 +159,4 @@ Storybook (ds.bereg.dev) deploys automatically on push to `main`.
 
 ## License
 
-MIT. IBM Plex is licensed under the SIL Open Font License (comes with the Fontsource packages).
+MIT. IBM Plex is licensed under the SIL Open Font License: `bereg-ds/fonts/OFL.txt`.

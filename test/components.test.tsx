@@ -150,3 +150,45 @@ describe('Light theme', () => {
     }
   });
 });
+
+describe('Card focus', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/components.css');
+  it('hides the link ring only where :has() can draw the card ring', () => {
+    const block = css.match(/@supports selector\(:has\(\*\)\)\s*{([\s\S]*?)\n}/);
+    expect(block, '@supports selector(:has(*)) block').not.toBeNull();
+    expect(block![1]).toMatch(/\.card:has\(\.stretch:focus-visible\)\s*{[^}]*outline:/);
+    expect(block![1]).toMatch(/\.card \.stretch:focus-visible\s*{\s*outline:\s*none/);
+    // Outside the block nothing removes the link's own focus ring (base.css :focus-visible stays in force).
+    const outside = css.replace(block![0], '').replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(outside).not.toMatch(/\.stretch:focus-visible/);
+    expect(outside).not.toMatch(/:has\(/);
+  });
+});
+
+describe('Fonts', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const fonts = read('../src/css/fonts.css');
+  const faces = [...fonts.matchAll(/@font-face\s*{([^}]*)}/g)].map((m) => m[1]).filter((f) => /url\(/.test(f));
+  it('ships its own files: Sans 300-700, Mono 400, no italic, no Fontsource imports', () => {
+    expect(fonts).not.toMatch(/@import/);
+    const sans = faces.filter((f) => f.includes("'IBM Plex Sans Variable'"));
+    const mono = faces.filter((f) => f.includes("'IBM Plex Mono'"));
+    expect(sans).toHaveLength(3); // latin, latin-ext, cyrillic
+    expect(mono).toHaveLength(3);
+    for (const f of sans) expect(f).toMatch(/font-weight: 300 700;/);
+    for (const f of mono) expect(f).toMatch(/font-weight: 400;/);
+    for (const f of faces) {
+      expect(f).toMatch(/font-style: normal;/);
+      expect(f).toMatch(/font-display: swap;/);
+      expect(f).toMatch(/url\('\.\.\/fonts\/[\w-]+\.woff2'\)/);
+      expect(f).toMatch(/unicode-range:/);
+    }
+  });
+  it('every linked font file exists, with the OFL license next to them', () => {
+    for (const [, file] of fonts.matchAll(/url\('\.\.\/fonts\/([\w-]+\.woff2)'\)/g)) {
+      expect(() => read(`../src/fonts/${file}`), file).not.toThrow();
+    }
+    expect(read('../src/fonts/OFL.txt')).toMatch(/SIL Open Font License/);
+  });
+});

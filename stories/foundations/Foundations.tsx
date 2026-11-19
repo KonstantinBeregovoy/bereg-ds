@@ -66,7 +66,7 @@ export function ContrastTable({ theme = 'dark' }: { theme?: 'dark' | 'light' }) 
 }
 
 const textStyles: Array<[string, string, string]> = [
-  ['text-h1', 'Display / H1', 'Konstantin'], ['text-h1-subtitle', 'H1 Subtitle', 'Senior Frontend Engineer'], ['text-facts', 'Facts', '15+'],
+  ['text-h1', 'Display / H1', 'Konstantin'], ['text-h1-subtitle', 'H1 Subtitle (20 → 30, fluid)', 'Senior Frontend Engineer'], ['text-facts', 'Facts', '15+'],
   ['text-h2', 'Heading / H2', 'Selected projects'], ['text-h2-article', 'H2 Article', 'Why it matters'], ['text-post-title', 'Post Title', 'Brighter than #fff'],
   ['text-h3', 'Heading / H3', 'Faster delivery'], ['text-lede', 'Lede', 'Open to frontend leadership and consulting.'], ['text-lede-hero', 'Lede Hero', 'I build and lead frontend teams.'],
   ['text-body', 'Body', 'Body text for paragraphs and lists.'], ['text-small', 'Small', 'Card and quote text.'], ['text-caption', 'Caption', 'Captions and secondary notes.'],
