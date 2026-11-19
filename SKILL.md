@@ -50,7 +50,9 @@ Without React, use the same CSS classes in HTML (see README.md).
 6. **Dark by default.** Add `theme-light.css` only if the project asks for a light theme. Never invent colors for
    either theme; use the semantic tokens so both themes work. The theme switch and its storage live in the project.
 7. **HDR only when asked**, for one accent at a time, always with an SDR fallback (`hdr.css`).
-8. **Exceptions stay in the project.** If a design needs a value the system does not have, put it in the project's
+8. **Page layout.** Put `class="page"` on `<body>` with `<main>`, `.site-header` and `.site-footer` as its direct
+   children, so the footer sits at the bottom of short pages: `body.page > a.skip, header.site-header, main, footer.site-footer`.
+9. **Exceptions stay in the project.** If a design needs a value the system does not have, put it in the project's
    own CSS with a comment, and tell Konstantin. Do not edit the package for one project.
 
 ## Links

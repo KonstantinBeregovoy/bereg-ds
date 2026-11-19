@@ -192,3 +192,28 @@ describe('Fonts', () => {
     expect(read('../src/fonts/OFL.txt')).toMatch(/SIL Open Font License/);
   });
 });
+
+describe('Page layout', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/base.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  const rule = (sel: string, from = css) => from.match(new RegExp(`(?:^|\\n)\\s*${sel.replace(/[.*>]/g, '\\$&')}\\s*{([^}]*)}`))?.[1] ?? '';
+  it('.page is a full-height flex column, 100vh fallback before 100dvh', () => {
+    const r = rule('.page');
+    expect(r).toMatch(/display:\s*flex/);
+    expect(r).toMatch(/flex-direction:\s*column/);
+    expect(r).toMatch(/min-height:\s*100vh;\s*min-height:\s*100dvh/);
+  });
+  it('main takes the free space, header and footer keep their height', () => {
+    expect(rule('.page > main')).toMatch(/flex:\s*1 0 auto/);
+    expect(css).toMatch(/\.page > \.site-header, \.page > \.site-footer\s*{\s*flex:\s*none/);
+  });
+  it('is opt-in: body and the components do not get the layout without the class', () => {
+    expect(rule('body')).not.toMatch(/display|min-height/);
+    const comp = read('../src/css/components.css');
+    expect(comp).not.toMatch(/min-height:\s*100d?vh/);
+  });
+  it('is turned off in print', () => {
+    const print = css.match(/@media print\s*{([\s\S]*?)\n}/)![1];
+    expect(print).toMatch(/\.page\s*{\s*display:\s*block;\s*min-height:\s*0/);
+  });
+});

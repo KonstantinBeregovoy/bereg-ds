@@ -80,6 +80,14 @@ p { margin: 0 0 var(--space-4); }
   mask-image: linear-gradient(to bottom, #000, transparent);
 }
 
+/* Page layout (opt-in): add class="page" to <body> (or the element that wraps the whole page).
+   Short page: the footer sits at the bottom of the screen. Long page: the footer follows the content, as usual.
+   Direct children: <main> takes the free space; .site-header and .site-footer keep their height.
+   Absolute and fixed children (.skip, .blueprint::before, overlays) are out of the flex flow and are not affected. */
+.page { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+.page > main { flex: 1 0 auto; }
+.page > .site-header, .page > .site-footer { flex: none; }
+
 /* Accessibility and print */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -90,4 +98,5 @@ p { margin: 0 0 var(--space-4); }
 @media print {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .blueprint::before { display: none; }
+  .page { display: block; min-height: 0; }
 }
