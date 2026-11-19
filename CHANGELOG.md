@@ -3,7 +3,20 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
-## 1.3.0 (unreleased)
+## 1.3.1 (2026-11-19)
+
+- `.prose`: links and inline `code` get `overflow-wrap: anywhere`, so a long URL, path or token without spaces wraps
+  instead of overflowing the text column on narrow screens (seen on bereg.dev at 320px). Short links and code look the same.
+  Code in `<pre>` keeps its horizontal scroll.
+- Grids no longer overflow narrow screens: `.grid`, `.grid-4`, `.grid-wide`, `.quotes` and `.facts` use
+  `minmax(min(<size>, 100%), 1fr)`. When the container is narrower than the minimum column (seen on bereg.dev at 320px:
+  `.grid-wide` and `.quotes` need 300px, the column is 272px), the single column shrinks to the container instead of overflowing.
+  Wide screens: same number and width of columns.
+- README and SKILL.md: prefer short link text in prose.
+- Storybook: Patterns / Prose, Patterns / Grids.
+- Changelog: release date for 1.3.0.
+
+## 1.3.0 (2026-11-19)
 
 - New optional class `.page` (in `base.css`) for `<body>`: `min-height: 100dvh` (`100vh` fallback), flex column,
   `<main>` takes the free space (`flex: 1 0 auto`), `.site-header` and `.site-footer` keep their height. On a short page
