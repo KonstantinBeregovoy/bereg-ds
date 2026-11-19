@@ -49,7 +49,8 @@ Import only what you need:
 ## Fonts
 
 `fonts.css` links the font files with relative URLs (`../fonts/*.woff2`), so bundlers (Vite, Astro, webpack) copy them as assets.
-Each script is a separate file with its own `unicode-range`: a page in English loads only the Latin files.
+Subsets: latin, latin-ext, cyrillic. Each is a separate file with its own `unicode-range`: a page in English loads only the Latin files.
+Other scripts (Greek, Vietnamese...) fall back to the system font.
 
 | Font | Weights | Latin file |
 |---|---|---|

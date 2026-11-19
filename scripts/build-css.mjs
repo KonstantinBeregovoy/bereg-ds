@@ -1,6 +1,6 @@
 // Copies the hand-written CSS from src/css to dist/css and checks that it parses.
 // Copies the font files (src/fonts, built by scripts/build-fonts.py) to dist/fonts; fonts.css links to them as ../fonts/.
-import { readdir, readFile, writeFile, mkdir, cp } from 'node:fs/promises';
+import { readdir, readFile, writeFile, mkdir, cp, rm } from 'node:fs/promises';
 import { transform } from 'lightningcss';
 
 const src = new URL('../src/css/', import.meta.url);
@@ -17,5 +17,7 @@ for (const name of await readdir(src)) {
   console.log(`dist/css/${name}`);
 }
 
+// Clear first, so files removed from src/fonts do not stay in the package.
+await rm(new URL('../dist/fonts/', import.meta.url), { recursive: true, force: true });
 await cp(new URL('../src/fonts/', import.meta.url), new URL('../dist/fonts/', import.meta.url), { recursive: true });
 console.log('dist/fonts/');

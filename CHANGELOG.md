@@ -6,8 +6,9 @@ a breaking change to a token name, a class name or a component prop is a major v
 ## 1.2.0 (unreleased)
 
 - Fonts: own woff2 files in `bereg-ds/fonts/` instead of the Fontsource packages (now dev dependencies only, used by
-  `scripts/build-fonts.py`). Hinting removed, Sans weight axis limited to 300 to 700. Same subsets and `unicode-range`,
-  same family names and fallbacks. Latin files: Sans 45.7 → 38.6 KB, Mono 14.7 → 10.1 KB. OFL license in `bereg-ds/fonts/OFL.txt`.
+  `scripts/build-fonts.py`). Hinting removed, Sans weight axis limited to 300 to 700. Subsets latin, latin-ext and cyrillic
+  (same `unicode-range` as before); Greek, Vietnamese and Cyrillic Extended dropped, they fall back to the system font.
+  Same family names and fallbacks. Latin files: Sans 45.7 → 38.5 KB, Mono 14.7 → 10.1 KB. OFL license in `bereg-ds/fonts/OFL.txt`.
   New export `bereg-ds/fonts/*`; README shows how to preload the Latin Sans file.
 - `.text-h1-subtitle` is fluid: `clamp(--font-size-lg, 0.75rem + 1.6vw, --font-size-2xl)`, 20px on phones, 30px on desktop.
 - `.subhead` right after `.section-head` has no top margin (was an extra 32px).

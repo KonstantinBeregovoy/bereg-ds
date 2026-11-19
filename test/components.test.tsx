@@ -174,8 +174,8 @@ describe('Fonts', () => {
     expect(fonts).not.toMatch(/@import/);
     const sans = faces.filter((f) => f.includes("'IBM Plex Sans Variable'"));
     const mono = faces.filter((f) => f.includes("'IBM Plex Mono'"));
-    expect(sans).toHaveLength(6);
-    expect(mono).toHaveLength(5);
+    expect(sans).toHaveLength(3); // latin, latin-ext, cyrillic
+    expect(mono).toHaveLength(3);
     for (const f of sans) expect(f).toMatch(/font-weight: 300 700;/);
     for (const f of mono) expect(f).toMatch(/font-weight: 400;/);
     for (const f of faces) {
