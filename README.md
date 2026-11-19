@@ -41,10 +41,29 @@ Import only what you need:
 |---|---|
 | `bereg-ds/fonts.css` | IBM Plex Sans (variable, 300 to 700) and Mono 400, metric-matched fallbacks |
 | `bereg-ds/tokens.css` | CSS variables: colors, spacing, radii, type scale, motion |
-| `bereg-ds/base.css` | Page defaults, headings, text-style classes (`.text-h1`, `.text-meta`...), `.blueprint` grid |
+| `bereg-ds/base.css` | Page defaults, headings, text-style classes (`.text-h1`, `.text-meta`...), `.blueprint` grid, `.page` layout |
 | `bereg-ds/components.css` | Components: `.btn`, `.card`, `.quote`, `.tag`, `.filter-tab`, `.section-head`, `.subhead`, `.facts`, `.timeline`, `.posts`, `.book-promo`, `.site-header`, `.site-footer`, `.prose`, `.wrap` |
 | `bereg-ds/hdr.css` | Optional HDR accents (`.hdr-logo`, `.hdr-card`) |
 | `bereg-ds/theme-light.css` | Optional light theme (see below) |
+
+## Page layout: footer at the bottom of short pages
+
+Add `class="page"` to `<body>` (optional). On a page shorter than the screen the footer sits at the bottom of the screen;
+on a longer page it follows the content, as usual. Without the class nothing changes.
+
+```html
+<body class="page blueprint">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">…</header>
+  <main id="main">…</main>
+  <footer class="site-footer">…</footer>
+</body>
+```
+
+- `<main>`, `.site-header` and `.site-footer` must be **direct children** of the element with `.page`.
+- `<main>` takes the free space; the header and footer keep their height. Height: `100dvh` (`100vh` in older browsers).
+- Works with `.blueprint` on the same element, with `.skip` and with `position: fixed` elements (they stay out of the flow).
+- In print the layout is turned off: no stretched page, the footer follows the content.
 
 ## Fonts
 

@@ -3,7 +3,16 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
-## 1.2.0 (unreleased)
+## 1.3.0 (unreleased)
+
+- New optional class `.page` (in `base.css`) for `<body>`: `min-height: 100dvh` (`100vh` fallback), flex column,
+  `<main>` takes the free space (`flex: 1 0 auto`), `.site-header` and `.site-footer` keep their height. On a short page
+  the footer sits at the bottom of the screen; on a long page it follows the content. Turned off in print.
+  Without the class nothing changes.
+- Storybook: Pages / Page layout, with short and long content.
+- Changelog: release date for 1.2.0.
+
+## 1.2.0 (2026-11-19)
 
 - Fonts: own woff2 files in `bereg-ds/fonts/` instead of the Fontsource packages (now dev dependencies only, used by
   `scripts/build-fonts.py`). Hinting removed, Sans weight axis limited to 300 to 700. Subsets latin, latin-ext and cyrillic
