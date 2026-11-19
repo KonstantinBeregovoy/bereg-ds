@@ -3,7 +3,18 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
-## 1.1.0 (unreleased)
+## 1.2.0 (unreleased)
+
+- Fonts: own woff2 files in `bereg-ds/fonts/` instead of the Fontsource packages (now dev dependencies only, used by
+  `scripts/build-fonts.py`). Hinting removed, Sans weight axis limited to 300 to 700. Same subsets and `unicode-range`,
+  same family names and fallbacks. Latin files: Sans 45.7 → 38.6 KB, Mono 14.7 → 10.1 KB. OFL license in `bereg-ds/fonts/OFL.txt`.
+  New export `bereg-ds/fonts/*`; README shows how to preload the Latin Sans file.
+- `.text-h1-subtitle` is fluid: `clamp(--font-size-lg, 0.75rem + 1.6vw, --font-size-2xl)`, 20px on phones, 30px on desktop.
+- `.subhead` right after `.section-head` has no top margin (was an extra 32px).
+- Card focus: the card-wide ring (and hiding the title link ring) only inside `@supports selector(:has(*))`.
+  Browsers without `:has()` keep the link's own focus ring; before, they showed no focus at all.
+
+## 1.1.0 (2026-11-18)
 
 - Optional light theme: `bereg-ds/theme-light.css` (not part of `bereg-ds.css`). Follows `prefers-color-scheme`
   unless `<html data-theme="light|dark">` is set. Text contrast 7:1 or more, interactive borders 3:1 or more.

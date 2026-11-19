@@ -10,7 +10,7 @@ Rules:
 - Units: font sizes and spacing in rem, line height without units, letter spacing in em, strokes in px, breakpoints in em.
 - Accessibility: text contrast at least 7:1 (WCAG AAA for contrast), interactive borders at least 3:1, a visible focus ring on every interactive component, underlined links.
 - Dark theme only for now. HDR is an optional accent, never a default.
-- Fonts: IBM Plex Sans and IBM Plex Mono, self-hosted through Fontsource.
+- Fonts: IBM Plex Sans (variable, 300 to 700) and IBM Plex Mono 400, self-hosted woff2 files in the package (`bereg-ds/fonts/`).
 
 Components: Button, Link, Nav Link, Tag, Card, Quote, Filter Tabs, Book Promo, Section, Facts, Timeline, Post List, Site Header, Site Footer.
 

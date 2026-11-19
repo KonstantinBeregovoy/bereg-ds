@@ -17,7 +17,7 @@
             "css": "font"
           }
         },
-        "$description": "'IBM Plex Sans Variable' is the Fontsource name of the variable font (fonts.css); 'IBM Plex Sans' covers projects that load Plex another way."
+        "$description": "'IBM Plex Sans Variable' is the family name of the variable font in fonts.css (same as Fontsource); 'IBM Plex Sans' covers projects that load Plex another way."
       },
       "mono": {
         "$value": [
