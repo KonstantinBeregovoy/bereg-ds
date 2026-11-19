@@ -3,7 +3,7 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
-## 1.3.0 (unreleased)
+## 1.3.0 (2026-11-19)
 
 - New optional class `.page` (in `base.css`) for `<body>`: `min-height: 100dvh` (`100vh` fallback), flex column,
   `<main>` takes the free space (`flex: 1 0 auto`), `.site-header` and `.site-footer` keep their height. On a short page
