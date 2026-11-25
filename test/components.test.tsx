@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
 import {
-  BookPromo, Button, Card, Facts, FilterTabs, Link, NavLink, PostList, Quote, Section, Sections,
-  SiteFooter, SiteHeader, Tags, Timeline,
+  BookPromo, Button, Card, CodeBlock, ColorField, Dropzone, Facts, Field, FilterTabs, Link, NavLink, PostList, Quote, Range,
+  Section, Sections, SiteFooter, SiteHeader, Tag, Tags, TextInput, Timeline,
 } from '../src/react';
 
 describe('Button', () => {
@@ -83,9 +83,17 @@ describe('Sections and lists', () => {
 });
 
 describe('CSS follows the system rules', () => {
-  const css = ['components.css', 'base.css'].map((f) => readFileSync(new URL(`../src/css/${f}`, import.meta.url), 'utf8')).join('\n');
+  // Same helper as the other blocks. Before 1.4.0 this used new URL(`../src/css/${f}`, import.meta.url), which Vite
+  // rewrites, so these two tests read this test file instead of the CSS. "reads the CSS" guards against that.
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = [read('../src/css/components.css'), read('../src/css/base.css')].join('\n');
+  it('reads the CSS', () => {
+    expect(css).toMatch(/\.btn\s*{/);
+    expect(css).toMatch(/\.blueprint::before/);
+  });
   it('uses tokens for spacing: no raw px in padding, margin, gap', () => {
-    const bad = css.split('\n').filter((l) => /\b(padding|margin|gap)[\w-]*\s*:[^;]*\d+px/.test(l));
+    // Exception: the 1px gap of .facts draws the hairlines between cells (a line, not spacing).
+    const bad = css.split('\n').filter((l) => /\b(padding|margin|gap)[\w-]*\s*:[^;]*\d+px/.test(l) && !/minmax\(min\(12\.5rem, 100%\), 1fr\)\); gap: 1px;$/.test(l));
     expect(bad).toEqual([]);
   });
   it('uses tokens for colors: no raw hex colors', () => {
@@ -122,11 +130,11 @@ describe('Light theme', () => {
   });
   it('keeps text contrast 7:1 and interactive borders 3:1 in both themes', () => {
     for (const t of [dark, light]) for (const [fg, bg] of [['text', 'bg'], ['text', 'surface'], ['muted', 'bg'], ['muted', 'surface'], ['accent', 'bg'],
-      ['accent', 'surface'], ['highlight', 'bg'], ['accent-ink', 'accent'], ['accent-ink', 'highlight']]) {
+      ['accent', 'surface'], ['highlight', 'bg'], ['accent-ink', 'accent'], ['accent-ink', 'highlight'], ['danger', 'bg'], ['danger', 'surface']]) {
       expect(ratio(t[fg], t[bg]), `${fg} on ${bg}`).toBeGreaterThanOrEqual(7);
     }
     for (const t of [dark, light]) {
-      for (const ui of ['line-strong', 'focus', 'accent', 'highlight']) {
+      for (const ui of ['line-strong', 'focus', 'accent', 'highlight', 'danger']) {
         expect(ratio(t[ui], t.bg), `${ui} vs bg`).toBeGreaterThanOrEqual(3);
         expect(ratio(t[ui], t.surface), `${ui} vs surface`).toBeGreaterThanOrEqual(3);
       }
@@ -144,6 +152,7 @@ describe('Light theme', () => {
     };
     for (const t of [dark, light]) for (const base of [t.bg, t.surface]) {
       expect(ratio(t.accent, over(t['accent-subtle'], base)), 'accent on accent-subtle').toBeGreaterThanOrEqual(7);
+      expect(ratio(t.text, over(t['accent-subtle'], base)), 'text on accent-subtle (dropzone drag)').toBeGreaterThanOrEqual(7);
       expect(ratio(t['selection-text'], over(t.selection, base)), 'selection').toBeGreaterThanOrEqual(7);
       expect(ratio(t.muted, over(t['header-bg'], base)), 'muted on header').toBeGreaterThanOrEqual(7);
       expect(ratio(t.highlight, base), 'highlight').toBeGreaterThanOrEqual(7);
@@ -238,5 +247,158 @@ describe('Grids on narrow screens', () => {
     const all = css.match(/minmax\([^;]*?\)\s*,\s*1fr\)|minmax\([^()]*\)/g) ?? [];
     expect(all.length).toBeGreaterThanOrEqual(5);
     for (const m of all) expect(m, m).toMatch(/^minmax\(min\([\d.]+rem, 100%\), 1fr\)$/);
+  });
+});
+
+describe('1.4.0: optional props keep the old output', () => {
+  it('Button: small and pressed only when asked', () => {
+    render(<><Button>Plain</Button><Button variant="secondary" size="sm" pressed>On</Button><Button variant="secondary" pressed={false}>Off</Button></>);
+    const plain = screen.getByRole('button', { name: 'Plain' });
+    expect(plain.className).toBe('btn btn-primary');
+    expect(plain).not.toHaveAttribute('aria-pressed');
+    expect(screen.getByRole('button', { name: 'On' })).toHaveClass('btn-sm');
+    expect(screen.getByRole('button', { name: 'On' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Off' })).toHaveAttribute('aria-pressed', 'false');
+  });
+  it('Section: sectionId on <section>, headingClassName on <h2>; without them as before', () => {
+    const { container } = render(<>
+      <Section id="h-old" title="Old"><p>a</p></Section>
+      <Section id="h-new" sectionId="tool" headingClassName="text-h2-article" title="New"><p>b</p></Section>
+    </>);
+    const [oldS, newS] = container.querySelectorAll('section');
+    expect(oldS).not.toHaveAttribute('id');
+    expect(oldS.querySelector('h2')).not.toHaveAttribute('class');
+    expect(newS).toHaveAttribute('id', 'tool');
+    expect(newS).toHaveAttribute('aria-labelledby', 'h-new');
+    expect(screen.getByRole('heading', { name: 'New' })).toHaveClass('text-h2-article');
+  });
+  it('SiteHeader: sticky class only with the prop', () => {
+    const nav = [{ href: '/', label: 'Home' }];
+    const { container } = render(<><SiteHeader brand={{ href: '/', label: 'A' }} nav={nav} /><SiteHeader sticky brand={{ href: '/', label: 'B' }} nav={nav} navLabel="Second" /></>);
+    const [a, b] = container.querySelectorAll('header');
+    expect(a.className).toBe('site-header');
+    expect(b).toHaveClass('site-header', 'site-header-sticky');
+  });
+  it('Tag: plain span by default, button and removable variants', () => {
+    const remove = vi.fn();
+    const { container } = render(<><Tag>Plain</Tag><Tag as="button">Add</Tag><Tag onRemove={remove}>React</Tag></>);
+    expect(container.querySelector('span.tag')!.className).toBe('tag');
+    expect(screen.getByRole('button', { name: 'Add' })).toHaveClass('tag', 'tag-button');
+    expect(screen.getByRole('button', { name: 'Add' })).toHaveAttribute('type', 'button');
+    fireEvent.click(screen.getByRole('button', { name: 'Remove React' }));
+    expect(remove).toHaveBeenCalledOnce();
+  });
+});
+
+describe('Forms', () => {
+  it('Field connects label, hint and error to the control', () => {
+    render(<>
+      <Field label="Name" hint="Short."><TextInput /></Field>
+      <Field label="Email" error="Wrong email." id="email"><TextInput type="email" /></Field>
+    </>);
+    const name = screen.getByLabelText('Name');
+    expect(name).toHaveClass('input');
+    expect(name).toHaveAttribute('type', 'text');
+    expect(name).toHaveAccessibleDescription('Short.');
+    expect(name).not.toHaveAttribute('aria-invalid');
+    const email = screen.getByLabelText('Email');
+    expect(email).toHaveAttribute('id', 'email');
+    expect(email).toHaveAttribute('aria-invalid', 'true');
+    expect(email).toHaveAccessibleDescription('Wrong email.');
+  });
+  it('Range is a native range with its class', () => {
+    render(<Field label="Boost"><Range min={0} max={10} defaultValue={5} /></Field>);
+    expect(screen.getByRole('slider', { name: 'Boost' })).toHaveClass('range');
+  });
+  it('ColorField shows the hex value and reports changes', () => {
+    // Colors built from parts: the CSS rules test above scans for hex literals.
+    const blue = '#' + '78c2ff', red = '#' + 'ff0000';
+    const change = vi.fn();
+    render(<ColorField label="Glow" value={blue} onChange={change} />);
+    const input = screen.getByLabelText('Glow');
+    expect(input).toHaveAttribute('type', 'color');
+    expect(screen.getByText(blue)).toHaveClass('color-field-value');
+    fireEvent.change(input, { target: { value: red } });
+    expect(change).toHaveBeenCalledWith(red);
+  });
+});
+
+describe('Dropzone', () => {
+  const file = new File(['x'], 'logo.png', { type: 'image/png' });
+  it('is a label around a file input; choosing calls onFiles', () => {
+    const onFiles = vi.fn();
+    render(<Dropzone onFiles={onFiles} accept="image/*" title="Drop an image" hint="PNG" />);
+    const input = screen.getByLabelText('Drop an image', { exact: false }) as HTMLInputElement;
+    expect(input).toHaveAttribute('type', 'file');
+    expect(input).toHaveAttribute('accept', 'image/*');
+    expect(input).toHaveClass('visually-hidden');
+    expect(input.closest('label')).toHaveClass('dropzone');
+    fireEvent.change(input, { target: { files: [file] } });
+    expect(onFiles).toHaveBeenCalledWith([file]);
+  });
+  it('drag sets data-drag, drop calls onFiles and clears it', () => {
+    const onFiles = vi.fn();
+    const { container } = render(<Dropzone onFiles={onFiles} />);
+    const zone = container.querySelector('.dropzone')!;
+    const dataTransfer = { types: ['Files'], files: [file], dropEffect: '' };
+    fireEvent.dragEnter(zone, { dataTransfer });
+    expect(zone).toHaveAttribute('data-drag');
+    fireEvent.drop(zone, { dataTransfer });
+    expect(zone).not.toHaveAttribute('data-drag');
+    expect(onFiles).toHaveBeenCalledWith([file]);
+  });
+});
+
+describe('CodeBlock', () => {
+  it('has a label, a copy button and a focusable scroll area', () => {
+    render(<CodeBlock label="CSS" code=".a { color: red; }" />);
+    expect(screen.getByText('CSS')).toHaveClass('code-block-label');
+    expect(screen.getByRole('button', { name: 'Copy CSS' })).toHaveClass('btn', 'btn-sm');
+    const region = screen.getByRole('region', { name: 'CSS code' });
+    expect(region.tagName).toBe('PRE');
+    expect(region).toHaveAttribute('tabindex', '0');
+    expect(region).toHaveTextContent('.a { color: red; }');
+  });
+  it('announces "Copied", or "Copy failed" when the clipboard is blocked', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    render(<CodeBlock label="JS" code="go()" />);
+    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Copy JS' })); });
+    expect(writeText).toHaveBeenCalledWith('go()');
+    await vi.waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copied'));
+    writeText.mockRejectedValueOnce(new Error('blocked'));
+    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Copy JS' })); });
+    await vi.waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copy failed'));
+  });
+});
+
+describe('1.4.0 CSS', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/components.css');
+  it('interactive borders use --line-strong, errors use --danger', () => {
+    expect(css).toMatch(/\.input\s*{[^}]*border:[^;]*var\(--line-strong\)/);
+    expect(css).toMatch(/\.input\[aria-invalid='true'\]\s*{[^}]*var\(--danger\)/);
+    expect(css).toMatch(/\.input::placeholder\s*{[^}]*color:\s*var\(--muted\)/);
+    expect(css).toMatch(/\.range\s*{[^}]*accent-color:\s*var\(--accent\)/);
+    expect(css).toMatch(/\.tag-button, \.tag-removable\s*{\s*border-color:\s*var\(--line-strong\)/);
+  });
+  it('pressed buttons have their own look and a forced-colors fallback', () => {
+    expect(css).toMatch(/\.btn\[aria-pressed='true'\][^{]*{[^}]*background:\s*var\(--accent\)/);
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(/\.btn\[aria-pressed='true'\]/);
+  });
+  it('dropzone shows the focus ring around the zone', () => {
+    expect(css).toMatch(/\.dropzone:focus-within\s*{[^}]*outline:\s*var\(--border-thick\) solid var\(--focus\);\s*outline-offset:\s*var\(--focus-offset\)/);
+  });
+  it('sticky header is opt-in and turned off in print', () => {
+    expect(css).toMatch(/\.site-header\s*{[^}]*}/);
+    expect(css.match(/\.site-header\s*{[^}]*}/)![0]).not.toMatch(/sticky/);
+    expect(css).toMatch(/\.site-header-sticky\s*{[^}]*position:\s*sticky/);
+    expect(css).toMatch(/@media print\s*{\s*\.site-header-sticky\s*{\s*position:\s*static/);
+  });
+  it('spacing scale has 40 and 48', () => {
+    const tokens = read('../dist/css/tokens.css');
+    expect(tokens).toMatch(/--space-10:\s*2\.5rem/);
+    expect(tokens).toMatch(/--space-12:\s*3rem/);
   });
 });

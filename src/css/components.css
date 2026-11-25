@@ -1,7 +1,9 @@
 /* Bereg DS components. Needs tokens.css (and base.css for page defaults).
    Every value comes from a token. Spacing, gaps and radii follow the scale of 4.
    Names match the Figma components: Button, Link, Nav Link, Tag, Card, Quote, Filter Tab, Section Head,
-   Facts, Timeline Item, Post Item, Book Promo, Site Header, Site Footer. */
+   Facts, Timeline Item, Post Item, Book Promo, Site Header, Site Footer.
+   1.4.0 adds: Field, Text Input, Range, Color Field, Dropzone, Code Block, small and pressed buttons,
+   interactive tags and the sticky site header. */
 
 @property --tick { syntax: '<length>'; inherits: false; initial-value: 11px; }
 
@@ -20,6 +22,11 @@
 .btn-secondary { color: var(--accent); }
 .btn-secondary:hover { background: var(--accent-subtle); color: var(--accent); text-decoration: none; }
 .btn:disabled, .btn[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+/* Small button: toolbars and panels (Copy, Add). */
+.btn-sm { padding: var(--space-1) var(--space-3); }
+/* Toggle button: aria-pressed="true" is the pressed state (segmented switch). Use with .btn-secondary,
+   so pressed (filled) and not pressed (outlined) differ by more than color. Navigation uses .filter-tab and aria-current. */
+.btn[aria-pressed='true'], .btn[aria-pressed='true']:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); text-decoration: none; }
 
 /* ---------- Link ---------- */
 /* Inline links use the base <a> style. Muted: footer and secondary links. */
@@ -42,6 +49,91 @@
   font-family: var(--mono); font-size: var(--font-size-2xs); line-height: 1.3333; color: var(--muted);
   border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); padding: var(--space-1) var(--space-2);
 }
+/* Interactive tags. Button tag (add, toggle): the whole tag is a <button>. Removable tag: text and a remove button.
+   Borders of interactive tags are --line-strong (WCAG 1.4.11). */
+.tag-button, .tag-removable { border-color: var(--line-strong); }
+.tag-button { margin: 0; background: transparent; cursor: pointer; }
+.tag-button:hover { color: var(--text); border-color: var(--accent); }
+.tag-button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.tag-removable { display: inline-flex; align-items: center; gap: var(--space-1); padding-inline-end: var(--space-1); }
+.tag-remove {
+  display: inline-grid; place-items: center; inline-size: var(--space-4); block-size: var(--space-4);
+  margin: 0; padding: 0; border: 0; border-radius: var(--radius-sm); background: transparent;
+  color: var(--muted); font: inherit; line-height: 1; cursor: pointer;
+}
+.tag-remove:hover { color: var(--text); background: var(--accent-subtle); }
+
+/* ---------- Field (label, control, hint, error) ---------- */
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.field-label { font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-label); color: var(--text); }
+.field-hint, .field-error { margin: 0; font-size: var(--font-size-sm); }
+.field-hint { color: var(--muted); }
+.field-error { color: var(--danger); }
+
+/* ---------- Text Input ---------- */
+.input {
+  inline-size: 100%; margin: 0; padding: var(--space-2) var(--space-3);
+  font-family: var(--font); font-size: var(--font-size-md); line-height: var(--leading-body); color: var(--text);
+  background: var(--surface); border: var(--border-thin) solid var(--line-strong); border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast);
+}
+.input::placeholder { color: var(--muted); opacity: 1; }
+.input:hover { border-color: var(--accent); }
+/* Invalid: --danger border, doubled inside, so it is thicker than the normal border and not only a color change. */
+.input[aria-invalid='true'] { border-color: var(--danger); box-shadow: inset 0 0 0 var(--border-thin) var(--danger); }
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Range ---------- */
+.range { inline-size: 100%; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.range:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Color Field ---------- */
+/* Native color picker in a --line-strong frame and its hex value in mono. The color logic stays in the project. */
+.color-field { display: inline-flex; align-items: center; gap: var(--space-3); }
+.color-field input[type='color'] {
+  inline-size: var(--space-10); block-size: var(--space-10); margin: 0; padding: var(--space-1);
+  background: var(--surface); border: var(--border-thin) solid var(--line-strong); border-radius: var(--radius-sm); cursor: pointer;
+}
+.color-field input[type='color']:hover { border-color: var(--accent); }
+.color-field input[type='color']::-webkit-color-swatch-wrapper { padding: 0; }
+.color-field input[type='color']::-webkit-color-swatch { border: 0; border-radius: var(--radius-sm); }
+.color-field input[type='color']::-moz-color-swatch { border: 0; border-radius: var(--radius-sm); }
+.color-field-value { font-family: var(--mono); font-size: var(--font-size-sm); color: var(--text); }
+
+/* ---------- Dropzone ---------- */
+/* A <label> around a visually hidden <input type="file">: click, keyboard and drop all reach the same input.
+   File checks (type, size) stay in the project. */
+.dropzone {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2);
+  padding: var(--space-8) var(--space-6); text-align: center; cursor: pointer;
+  background: var(--surface); border: var(--border-medium) dashed var(--line-strong); border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+}
+.dropzone-title { font-size: var(--font-size-md); font-weight: var(--weight-semibold); color: var(--text); }
+.dropzone-hint { font-family: var(--mono); font-size: var(--font-size-xs); color: var(--muted); }
+.dropzone:hover { border-color: var(--accent); }
+/* Dragging a file over: solid accent border and a tint. */
+.dropzone[data-drag] { border-style: solid; border-color: var(--accent); background: var(--accent-subtle); }
+/* On the tint --muted drops below 7:1, so the hint turns --text. */
+.dropzone[data-drag] .dropzone-hint { color: var(--text); }
+/* The ring goes around the zone, not around the hidden input. */
+.dropzone:focus-within { outline: var(--border-thick) solid var(--focus); outline-offset: var(--focus-offset); }
+.dropzone input:focus-visible { outline: none; }
+.dropzone[data-disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Code Block ---------- */
+/* A panel with a label (HTML, CSS, JS) and a Copy button; the body scrolls sideways and is keyboard focusable. */
+.code-block { margin: 0; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); }
+.code-block-head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); border-bottom: var(--border-thin) solid var(--line);
+}
+.code-block-label { font-family: var(--mono); font-size: var(--font-size-xs); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--muted); }
+.code-block pre {
+  margin: 0; padding: var(--space-4); overflow-x: auto;
+  font-family: var(--mono); font-size: var(--font-size-sm); line-height: var(--leading-snug); color: var(--text);
+}
+.code-block code { font: inherit; }
 
 /* ---------- Grid layouts ---------- */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); gap: var(--space-6); }
@@ -84,6 +176,8 @@
 @supports selector(:has(*)) {
   .card:has(.stretch:focus-visible) { outline: var(--border-thick) solid var(--focus); outline-offset: var(--focus-offset); }
   .card .stretch:focus-visible { outline: none; }
+  /* Sticky header: keep anchors and focus clear of it. Without :has(), set scroll-padding-top on <html> in the project. */
+  html:has(.site-header-sticky) { scroll-padding-top: calc(var(--space-16) + var(--space-12) + var(--space-4)); }
 }
 
 /* ---------- Quote ---------- */
@@ -169,6 +263,9 @@
 
 /* ---------- Site Header ---------- */
 .site-header { border-bottom: var(--border-thin) solid var(--line); background: var(--header-bg); }
+/* Sticky header (opt-in): stays on top while the page scrolls. Anchors and focused elements stop below it
+   (scroll-padding-top on <html>, WCAG 2.4.11; see the :has() block above), sized for a header of up to two rows of navigation. */
+.site-header-sticky { position: sticky; top: 0; z-index: 5; }
 .site-header > .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; min-height: 4.5rem; padding-block: var(--space-2); }
 .brand { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--text); text-decoration: none; font-weight: var(--weight-bold); font-size: var(--font-size-base); letter-spacing: var(--tracking-tight); }
 .brand:hover { color: var(--text); }
@@ -207,8 +304,18 @@
   .section-head::after { animation: bds-draw linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
 }
 
+@media print {
+  .site-header-sticky { position: static; }
+}
+
 /* ---------- Forced colors (Windows high contrast) ---------- */
 @media (forced-colors: active) {
   .card::before, .quote::before, .section-head::after { display: none; }
   .btn-primary, .filter-tab[aria-current='true'], .filter-tab[aria-current='page'] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
+  .btn[aria-pressed='true'], .tag-button[aria-pressed='true'] { forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: Highlight; }
+  .input, .color-field input[type='color'], .dropzone, .tag-button, .tag-removable { border-color: ButtonText; }
+  /* box-shadow is dropped in forced colors: mark the invalid field with a dashed border instead. */
+  .input[aria-invalid='true'] { border-style: dashed; }
+  .dropzone[data-drag] { border-color: Highlight; }
+  .dropzone:focus-within { outline-color: Highlight; }
 }

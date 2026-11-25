@@ -3,6 +3,33 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
+## 1.4.0 (unreleased)
+
+Additions only (needed for glow.bereg.dev). Existing classes, tokens and props look and work as before.
+
+- Tokens: `--danger` for errors (dark #ff9e9e: 9.5:1 on `--bg`, 9.0:1 on `--surface`; light #9b1c1c: 7.7:1 and 8.2:1),
+  primitives `--prim-red-300` and `--prim-light-red-800`. Spacing `--space-10` (40px) and `--space-12` (48px).
+- Forms: `.field` (`.field-label`, `.field-hint`, `.field-error`), `.input` (`--line-strong` border, `--muted` placeholder,
+  `aria-invalid="true"` → doubled `--danger` border, dashed in forced colors), `.range` (`accent-color: --accent`).
+  React: `Field`, `TextInput`, `Range`.
+- Color field: `.color-field` (native color input in a `--line-strong` frame, hex value in mono). React: `ColorField` (`value`, `onChange`).
+- Dropzone: `.dropzone` (label around a hidden file input, title, hint; hover, `data-drag`, focus ring around the zone,
+  `data-disabled`). React: `Dropzone` (`onFiles(files)`, `accept`, `multiple`).
+- Code block: `.code-block` (label, small Copy button, `<pre>` with horizontal scroll and `tabIndex=0`, status message
+  for screen readers). React: `CodeBlock` (`label`, `code`).
+- Buttons: `.btn-sm` (small) and `.btn[aria-pressed="true"]` (pressed toggle, Highlight in forced colors).
+  React `Button`: optional `size="sm"` and `pressed`.
+- Tag: interactive variants `.tag-button` and `.tag-removable` / `.tag-remove` (`--line-strong` border, radius 2).
+  React `Tag`: optional `as="button"`, `onRemove`, `removeLabel`.
+- Section: optional `sectionId` (id on `<section>`) and `headingClassName` (class on `<h2>`).
+- Site header: optional sticky header `.site-header-sticky` (React `SiteHeader sticky`), with `scroll-padding-top` on
+  `<html>` where `:has()` works. Not sticky in print.
+- `base.css`: `.visually-hidden`.
+- Tests: the "tokens only" CSS tests read the test file instead of the CSS (Vite rewrote the URL); fixed, with a check
+  that they read the CSS. Exception for the 1px hairline gap of `.facts`. Contrast tests include `--danger`.
+- Storybook: Components / Forms, Dropzone, Code Block; Button: Small, Toggle; Card: Tag (interactive); Patterns: Section
+  anchor, sticky header; `--danger` in the contrast table.
+
 ## 1.3.1 (2026-11-19)
 
 - `.prose`: links and inline `code` get `overflow-wrap: anywhere`, so a long URL, path or token without spaces wraps

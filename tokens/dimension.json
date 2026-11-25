@@ -58,6 +58,22 @@
         }
       }
     },
+    "10": {
+      "$value": "40px",
+      "$extensions": {
+        "bds": {
+          "css": "space-10"
+        }
+      }
+    },
+    "12": {
+      "$value": "48px",
+      "$extensions": {
+        "bds": {
+          "css": "space-12"
+        }
+      }
+    },
     "16": {
       "$value": "64px",
       "$extensions": {

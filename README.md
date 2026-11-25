@@ -142,7 +142,51 @@ React components only render markup and classes; all styles live in the CSS, so 
 React is an optional peer dependency (18 or newer).
 
 Components: `Button`, `Link`, `NavLink`, `Tag`, `Tags`, `Card`, `Quote`, `BookPromo`, `FilterTabs`, `Sections`, `Section`,
-`Facts`, `Timeline`, `PostList`, `Subhead`, `SiteHeader`, `SiteFooter`, `Wrap`.
+`Facts`, `Timeline`, `PostList`, `Subhead`, `SiteHeader`, `SiteFooter`, `Wrap`, `Field`, `TextInput`, `Range`,
+`ColorField`, `Dropzone`, `CodeBlock`.
+
+Optional props (1.4.0; without them the output is the same as before):
+
+- `Button`: `size="sm"` (`.btn-sm`, toolbars), `pressed` (`aria-pressed`, toggle; use with `variant="secondary"`).
+- `Tag`: `as="button"` (the whole tag is a button) or `onRemove` (a remove button named "Remove <text>", or `removeLabel`).
+- `Section`: `sectionId` (id on `<section>`, for anchors; `id` stays on the heading), `headingClassName` (class on `<h2>`).
+- `SiteHeader`: `sticky` (`.site-header-sticky`).
+
+## Forms, Dropzone, Code Block (1.4.0)
+
+```tsx
+import { CodeBlock, ColorField, Dropzone, Field, Range, TextInput } from 'bereg-ds/react';
+
+<Field label="Logo text" hint="Up to 24 characters." error={tooLong ? 'Too long.' : undefined}>
+  <TextInput value={text} onChange={(e) => setText(e.target.value)} />
+</Field>
+<Field label="Brightness"><Range min={0} max={100} value={boost} onChange={(e) => setBoost(+e.target.value)} /></Field>
+<ColorField label="Glow color" value={color} onChange={setColor} />
+<Dropzone accept="image/*" title="Drop an image or choose a file" hint="PNG, JPG, SVG" onFiles={(files) => load(files[0])} />
+<CodeBlock label="CSS" code={css} />
+```
+
+- `Field` gives the control its id and connects the hint and error (`aria-describedby`); with `error` the control gets
+  `aria-invalid="true"` and a doubled `--danger` border. Placeholder text is `--muted`.
+- `Range` is the native slider in `--accent` (`accent-color`).
+- `ColorField`: native `<input type="color">` in a `--line-strong` frame and the hex value in mono. The color logic is the project's.
+- `Dropzone`: a `<label>` around a visually hidden file input, so click, keyboard and drag and drop reach the same input.
+  `onFiles(files)` gets an array of `File`; `accept` only filters the file dialog. Checks (type, size) are the project's.
+  States: hover, `data-drag` while a file is over it, a focus ring around the zone, `data-disabled`.
+- `CodeBlock`: label and a small Copy button; the `<pre>` scrolls sideways and takes keyboard focus (`tabIndex=0`,
+  `role="region"`, named "CSS code"). After Copy, "Copied" or "Copy failed" is read by screen readers (`role="status"`).
+
+The same with CSS only: `.field`, `.field-label`, `.field-hint`, `.field-error`, `.input`, `.range`, `.color-field`,
+`.color-field-value`, `.dropzone`, `.dropzone-title`, `.dropzone-hint`, `.code-block`, `.code-block-head`,
+`.code-block-label`, `.btn-sm`, `.btn[aria-pressed="true"]`, `.tag-button`, `.tag-removable`, `.tag-remove`,
+`.site-header-sticky`, and `.visually-hidden` (in `base.css`). Examples: [Storybook](https://ds.bereg.dev).
+
+## Sticky header (optional)
+
+`<SiteHeader sticky …/>` or `<header class="site-header site-header-sticky">` keeps the header on top while the page scrolls.
+Where `:has()` works, `<html>` gets `scroll-padding-top` (128px, room for two rows of navigation), so anchors and
+focused elements are not hidden under it (WCAG 2.4.11). For a taller header set `scroll-padding-top` on `<html>` in the
+project. In print the header is not sticky.
 
 ## Tokens in JavaScript
 
@@ -157,12 +201,13 @@ The source tokens (W3C DTCG format) are in `tokens/*.json`, the light theme in `
 ## Rules of the system
 
 1. **Strict scale of 4.** Spacing, gaps and radii are multiples of 4. The name is the multiplier: `--space-3` = 12px.
+   Steps: 1, 2, 3, 4, 5, 6, 8, 10, 12, 16 (4 to 64px).
    Strokes (1/2/3px), corner ticks (11/22px) and breakpoints (640/760px) are separate sizes.
 2. **Tokens only.** No raw colors or pixel spacing in components (a test checks it).
 3. **Units.** Font sizes and spacing in rem, line height without units, letter spacing in em, strokes in px,
    breakpoints in em in media queries (`40em`, `47.5em`). The `--bp-sm`/`--bp-md` tokens (640/760px) are for reference:
    CSS variables do not work in media queries.
-4. **Accessibility.** Text contrast 7:1 or more. Interactive borders use `--line-strong` (3:1 or more),
+4. **Accessibility.** Text contrast 7:1 or more (errors: `--danger`, 7:1 or more too). Interactive borders use `--line-strong` (3:1 or more),
    `--line` is decorative only. Visible focus on every interactive element. Links are underlined.
    Respects `prefers-reduced-motion` and `forced-colors`.
 5. **Dark by default.** The light theme is an optional file with the same token names.
