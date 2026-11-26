@@ -3,7 +3,23 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
-## 1.4.0 (unreleased)
+## 1.4.1 (2026-11-26)
+
+Fixes after checking 1.4.0 on glow.bereg.dev. No class, token or prop renamed or removed.
+
+- CodeBlock: the button shows "Copied" or "Copy failed" for 2 seconds, then "Copy" again. All three texts share one
+  grid cell (`.code-block-copy`), so the button keeps one width (as wide as "Copy failed", a little wider than in 1.4.0).
+  The button has no `aria-label` any more: its name is its text, "Copy CSS" (label in hidden text), then "Copied".
+  The `role="status"` message stays. Status and button text now clear after 2 s (was 3 s).
+- CodeBlock: copying works without the Clipboard API (http on a local network, for example `http://192.168.x.x`):
+  a temporary textarea and `execCommand('copy')`; focus returns to the button. New optional prop `onCopy(code)`
+  (resolve `true` when copied) for the project's own copy function.
+- Tag with `onRemove`: the × keeps its 16×16 look, its target is 24×24 (WCAG 2.5.8) through `.tag-remove::before`.
+  The target stays inside the tag, so neighbours in `.tags` do not overlap. The tag's size is unchanged.
+- Tests for the above; Storybook: Code Block states Copied and Copy failed, Tag (removable) target area.
+- `HOWUPDATEVERSION.md`: the task for this release.
+
+## 1.4.0 (2026-11-26)
 
 Additions only (needed for glow.bereg.dev). Existing classes, tokens and props look and work as before.
 

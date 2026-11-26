@@ -11,7 +11,7 @@ const css = `.logo {
 const meta = {
   title: 'Components/Code Block',
   component: CodeBlock,
-  parameters: { docs: { description: { component: `Panel: surface, 1px line border, radius 2. Head: label (Mono 13, caps, muted) and a small Copy button. Body: Mono 14, padding 16, horizontal scroll; the scroll area takes keyboard focus (tabIndex 0, role region, named "<label> code"). After Copy a status message ("Copied" or "Copy failed") is read by screen readers. [Figma](${FIGMA})` } } },
+  parameters: { docs: { description: { component: `Panel: surface, 1px line border, radius 2. Head: label (Mono 13, caps, muted) and a small Copy button. Body: Mono 14, padding 16, horizontal scroll; the scroll area takes keyboard focus (tabIndex 0, role region, named "<label> code"). After Copy the button shows "Copied" or "Copy failed" for 2 seconds (its width stays the same: all three texts share one grid cell), and a status message is read by screen readers. The button's name is its visible text: "Copy CSS", then "Copied". Copying: \`onCopy(code)\` from the project if given; otherwise the Clipboard API, or a temporary textarea with \`execCommand('copy')\` where the Clipboard API is missing (http on a local network). [Figma](${FIGMA})` } } },
   args: { label: 'CSS', code: css },
 } satisfies Meta<typeof CodeBlock>;
 export default meta;
@@ -28,5 +28,28 @@ export const KeyboardScroll: Story = {
     await expect(canvas.getByRole('button', { name: 'Copy CSS' })).toHaveFocus();
     await userEvent.tab();
     await expect(canvas.getByRole('region', { name: 'CSS code' })).toHaveFocus();
+  },
+};
+
+export const Copied: Story = {
+  name: 'State: Copied',
+  args: { onCopy: async () => true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Copy CSS' }));
+    await expect(canvas.getByRole('button', { name: 'Copied' })).toBeInTheDocument();
+  },
+};
+
+export const CopyFailed: Story = {
+  name: 'State: Copy failed',
+  args: { onCopy: async () => false },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Copy CSS' });
+    const width = button.getBoundingClientRect().width;
+    await userEvent.click(button);
+    await expect(canvas.getByRole('button', { name: 'Copy failed' })).toBeInTheDocument();
+    await expect(button.getBoundingClientRect().width).toBe(width);
   },
 };

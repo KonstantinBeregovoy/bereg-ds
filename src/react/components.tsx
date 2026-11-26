@@ -461,6 +461,34 @@ export function Dropzone({ onFiles, accept, multiple, title = 'Drop a file here 
 
 /* ---------- Code Block ---------- */
 
+/** Copies text: Clipboard API in a secure context, otherwise a temporary <textarea> and execCommand('copy')
+ *  (for example http://192.168.x.x on a phone). Returns true when the text was copied. */
+async function copyText(text: string): Promise<boolean> {
+  if (typeof navigator !== 'undefined' && navigator.clipboard && typeof window !== 'undefined' && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch { /* blocked: try the fallback */ }
+  }
+  if (typeof document === 'undefined') return false;
+  const active = document.activeElement as HTMLElement | null;
+  const area = document.createElement('textarea');
+  area.value = text;
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.inset = '0 auto auto 0';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  area.select();
+  let ok = false;
+  try {
+    ok = document.execCommand('copy');
+  } catch { ok = false; }
+  area.remove();
+  active?.focus({ preventScroll: true });
+  return ok;
+}
+
 export type CodeBlockProps = {
   /** Panel label, for example HTML, CSS, JS. Also names the scroll area: "<label> code". */
   label: string;
@@ -469,31 +497,44 @@ export type CodeBlockProps = {
   copyLabel?: string;
   copiedMessage?: string;
   failedMessage?: string;
+  /** Your own copy function; resolve true when copied. Without it: Clipboard API, or execCommand where the Clipboard API is missing. */
+  onCopy?: (code: string) => Promise<boolean>;
   className?: string;
 };
-/** Code panel with a label and a Copy button. The body scrolls sideways and takes keyboard focus. */
-export function CodeBlock({ label, code, copyLabel = 'Copy', copiedMessage = 'Copied', failedMessage = 'Copy failed', className }: CodeBlockProps) {
+/** Code panel with a label and a Copy button. The body scrolls sideways and takes keyboard focus.
+ *  After Copy the button shows "Copied" or "Copy failed" for 2 seconds, and a status message is read by screen readers. */
+export function CodeBlock({ label, code, copyLabel = 'Copy', copiedMessage = 'Copied', failedMessage = 'Copy failed', onCopy, className }: CodeBlockProps) {
+  const [state, setState] = useState<'idle' | 'copied' | 'failed'>('idle');
   const [status, setStatus] = useState('');
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const copy = async () => {
     clearTimeout(timer.current);
-    let message = failedMessage;
+    let ok = false;
     try {
-      await navigator.clipboard.writeText(code);
-      message = copiedMessage;
-    } catch { /* clipboard blocked or not available */ }
+      ok = await (onCopy ?? copyText)(code);
+    } catch { ok = false; }
+    const next = ok ? 'copied' : 'failed';
+    setState(next);
     // Empty first, so the same message is announced again on a second click.
     setStatus('');
     timer.current = setTimeout(() => {
-      setStatus(message);
-      timer.current = setTimeout(() => setStatus(''), 3000);
+      setStatus(ok ? copiedMessage : failedMessage);
+      timer.current = setTimeout(() => { setState('idle'); setStatus(''); }, 2000);
     }, 100);
   };
   return (
     <figure className={cx('code-block', className)}>
       <div className="code-block-head">
         <span className="code-block-label">{label}</span>
-        <Button variant="secondary" size="sm" onClick={copy} aria-label={`${copyLabel} ${label}`}>{copyLabel}</Button>
+        <Button variant="secondary" size="sm" onClick={copy} data-state={state === 'idle' ? undefined : state}>
+          {/* All three texts sit in one grid cell: the button is as wide as the longest and does not jump.
+              Only the visible one gives the accessible name ("Copy CSS", then "Copied"). */}
+          <span className="code-block-copy">
+            <span data-active={state === 'idle' ? '' : undefined} aria-hidden={state === 'idle' ? undefined : true}>{copyLabel}{' '}<span className="visually-hidden">{label}</span></span>
+            <span data-active={state === 'copied' ? '' : undefined} aria-hidden={state === 'copied' ? undefined : true}>{copiedMessage}</span>
+            <span data-active={state === 'failed' ? '' : undefined} aria-hidden={state === 'failed' ? undefined : true}>{failedMessage}</span>
+          </span>
+        </Button>
       </div>
       <pre tabIndex={0} role="region" aria-label={`${label} code`}><code>{code}</code></pre>
       <span className="visually-hidden" role="status">{status}</span>
