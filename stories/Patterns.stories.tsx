@@ -79,3 +79,35 @@ export const HeaderFooter: Story = {
     </div>
   ),
 };
+
+export const SectionAnchor: Story = {
+  name: 'Section: anchor and heading class',
+  parameters: { docs: { description: { story: '`sectionId` puts an id on the <section> for anchors (#tool); `id` stays on the heading. `headingClassName` adds a class to the <h2>.' } } },
+  render: () => (
+    <Sections>
+      <Section id="s-tool-title" sectionId="tool" headingClassName="text-h2-article" title="Image tool"><p><Link href="#tool">Link to #tool</Link></p></Section>
+    </Sections>
+  ),
+};
+
+export const StickyHeader: Story = {
+  name: 'Site header: sticky',
+  parameters: {
+    layout: 'fullscreen',
+    docs: { description: { story: '`sticky` (`.site-header-sticky`): the header stays on top while the page scrolls. Anchors and focused elements stop below it (scroll-padding-top on <html>, where :has() works). Off by default.' } },
+  },
+  render: () => (
+    <div>
+      <SiteHeader sticky brand={{ href: '#home', label: 'glow' }}
+        nav={[{ href: '#tool', label: 'Tool', current: true }, { href: '#how', label: 'How it works' }, { href: '#code', label: 'Code' }]} />
+      <main className="wrap">
+        {['tool', 'how', 'code'].map((id) => (
+          <section key={id} id={id} style={{ minHeight: '60vh', paddingBlock: 'var(--space-8)' }}>
+            <h2>#{id}</h2>
+            <p className="muted">Scroll: the header stays on top.</p>
+          </section>
+        ))}
+      </main>
+    </div>
+  ),
+};

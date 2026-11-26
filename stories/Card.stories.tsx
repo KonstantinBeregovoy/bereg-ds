@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
+import { useState } from 'react';
 import { BookPromo, Card, Quote, Tag, Tags } from '../src/react';
 import { FIGMA } from './figma';
 
@@ -55,4 +56,26 @@ export const Book: Story = {
 export const TagsStory: Story = {
   name: 'Tag',
   render: () => (<div><Tag>Accessibility</Tag><Tags aria-label="Stack" items={['TypeScript', 'React', 'Web Workers', 'OKLab']} /></div>),
+};
+
+function InteractiveTagsDemo() {
+  const [tags, setTags] = useState(['TypeScript', 'React', 'OKLab']);
+  const [hdr, setHdr] = useState(false);
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)', alignItems: 'center' }}>
+      {tags.map((t) => <Tag key={t} onRemove={() => setTags(tags.filter((x) => x !== t))}>{t}</Tag>)}
+      <Tag as="button" onClick={() => setTags([...tags, `Tag ${tags.length + 1}`])}>+ Add</Tag>
+      <Tag as="button" aria-pressed={hdr} onClick={() => setHdr(!hdr)}>HDR</Tag>
+    </div>
+  );
+}
+export const InteractiveTags: Story = {
+  name: 'Tag (interactive)',
+  parameters: { docs: { description: { story: '`as="button"`: the whole tag is a button (add, toggle with aria-pressed). `onRemove`: a remove button (×) named "Remove <text>". Interactive tags have a --line-strong border, radius 2, no pill.' } } },
+  render: () => <InteractiveTagsDemo />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Remove React' }));
+    await expect(canvas.queryByText('React')).toBeNull();
+  },
 };

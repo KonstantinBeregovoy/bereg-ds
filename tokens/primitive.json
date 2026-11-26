@@ -83,6 +83,16 @@
           }
         }
       },
+      "red": {
+        "300": {
+          "$value": "#ff9e9e",
+          "$extensions": {
+            "bds": {
+              "css": "prim-red-300"
+            }
+          }
+        }
+      },
       "white": {
         "$value": "#ffffff",
         "$extensions": {

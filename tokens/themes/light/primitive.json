@@ -35,6 +35,14 @@
           }
         }
       },
+      "red-800": {
+        "$value": "#9b1c1c",
+        "$extensions": {
+          "bds": {
+            "css": "prim-light-red-800"
+          }
+        }
+      },
       "line": {
         "$value": "#d5deea",
         "$extensions": {

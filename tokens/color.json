@@ -93,6 +93,15 @@
       },
       "$description": "Hover of primary actions, section numbers, current filter."
     },
+    "danger": {
+      "$value": "{primitive.color.red.300}",
+      "$extensions": {
+        "bds": {
+          "css": "danger"
+        }
+      },
+      "$description": "Errors: error text and the border of an invalid field. >=7:1 on bg and surface."
+    },
     "focus": {
       "$value": "{primitive.color.blue.300}",
       "$extensions": {

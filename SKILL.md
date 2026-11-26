@@ -36,10 +36,12 @@ Without React, use the same CSS classes in HTML (see README.md).
 ## Rules
 
 1. **Use components first.** Button, Link, NavLink, Tag/Tags, Card, Quote, BookPromo, FilterTabs, Sections/Section,
-   Facts, Timeline, PostList, Subhead, SiteHeader, SiteFooter, Wrap. Do not restyle them per page.
+   Facts, Timeline, PostList, Subhead, SiteHeader, SiteFooter, Wrap; forms: Field, TextInput, Range, ColorField,
+   Dropzone; CodeBlock. Do not restyle them per page.
 2. **Tokens only.** Colors: `var(--bg)`, `--surface`, `--text`, `--muted`, `--line`, `--line-strong`, `--accent`,
-   `--accent-ink`, `--highlight`, `--focus`. Never hard-code hex colors or primitives (`--prim-*`).
-3. **Scale of 4.** Spacing, gaps and radii only from `--space-1` (4px) … `--space-16` (64px) and `--radius-sm|md|lg`.
+   `--accent-ink`, `--highlight`, `--focus`, `--danger` (errors only). Never hard-code hex colors or primitives (`--prim-*`).
+3. **Scale of 4.** Spacing, gaps and radii only from `--space-1` (4px) … `--space-16` (64px: 1, 2, 3, 4, 5, 6, 8, 10, 12, 16)
+   and `--radius-sm|md|lg`.
    No 6px, 10px, 14px. Strokes `--border-thin|medium|thick` in px.
 4. **Type.** Use the text-style classes (`.text-h1`, `.text-h2`, `.text-h3`, `.text-lede`, `.text-body`, `.text-small`,
    `.text-meta`, `.text-label`, `.text-caps`, `.text-tag`, `.text-code`, `.text-footnote`, `.text-caption`, `.text-strong`) or `--font-size-*` tokens. Fonts: `var(--font)`,
@@ -54,7 +56,16 @@ Without React, use the same CSS classes in HTML (see README.md).
    children, so the footer sits at the bottom of short pages: `body.page > a.skip, header.site-header, main, footer.site-footer`.
 9. **Link text in prose.** Use short link text ("GitHub", "glow.bereg.dev", the article title), not the full URL.
    If a long URL or path is left in `.prose`, it wraps anywhere instead of overflowing the column.
-10. **Exceptions stay in the project.** If a design needs a value the system does not have, put it in the project's
+10. **Forms.** Put every control in a `Field` (label, hint, error; it sets for/id, `aria-describedby`, `aria-invalid`).
+   Errors are text in `--danger`, never color alone. File checks (type, size) and color logic stay in the project:
+   `Dropzone` and `ColorField` only hand over the files or the hex value.
+11. **Buttons.** `size="sm"` (`.btn-sm`) for toolbars and panels. A toggle or segmented switch is
+   `variant="secondary"` with `pressed` (`aria-pressed`) in a labelled `role="group"`; navigation uses `FilterTabs`
+   (`aria-current`), not `aria-pressed`. Interactive tags: `Tag as="button"` or `Tag onRemove`.
+12. **Sticky header** only when the page needs it: `SiteHeader sticky` (`.site-header-sticky`). Anchors and focus stop
+   below it by themselves where `:has()` works; for a header taller than two rows, set `scroll-padding-top` on `<html>`
+   in the project.
+13. **Exceptions stay in the project.** If a design needs a value the system does not have, put it in the project's
    own CSS with a comment, and tell Konstantin. Do not edit the package for one project.
 
 ## Links

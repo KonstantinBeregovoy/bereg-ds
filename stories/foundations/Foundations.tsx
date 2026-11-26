@@ -10,6 +10,7 @@ const cssName: Record<string, string> = {
 const pairs: Array<[string, string, string?]> = [
   ['text', 'bg'], ['text', 'surface'], ['muted', 'bg'], ['muted', 'surface'], ['accent', 'bg'], ['accent', 'surface'],
   ['highlight', 'bg'], ['accent-ink', 'accent'], ['accent-ink', 'highlight'],
+  ['danger', 'bg'], ['danger', 'surface'],
   ['line-strong', 'bg', 'borders, 3:1'], ['line-strong', 'surface', 'borders, 3:1'], ['line', 'bg', 'decorative only'],
 ];
 
