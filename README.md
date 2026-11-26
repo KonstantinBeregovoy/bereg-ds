@@ -148,7 +148,8 @@ Components: `Button`, `Link`, `NavLink`, `Tag`, `Tags`, `Card`, `Quote`, `BookPr
 Optional props (1.4.0; without them the output is the same as before):
 
 - `Button`: `size="sm"` (`.btn-sm`, toolbars), `pressed` (`aria-pressed`, toggle; use with `variant="secondary"`).
-- `Tag`: `as="button"` (the whole tag is a button) or `onRemove` (a remove button named "Remove <text>", or `removeLabel`).
+- `Tag`: `as="button"` (the whole tag is a button) or `onRemove` (a remove button named "Remove <text>", or `removeLabel`;
+  the × looks 16×16, its target is 24×24).
 - `Section`: `sectionId` (id on `<section>`, for anchors; `id` stays on the heading), `headingClassName` (class on `<h2>`).
 - `SiteHeader`: `sticky` (`.site-header-sticky`).
 
@@ -174,11 +175,14 @@ import { CodeBlock, ColorField, Dropzone, Field, Range, TextInput } from 'bereg-
   `onFiles(files)` gets an array of `File`; `accept` only filters the file dialog. Checks (type, size) are the project's.
   States: hover, `data-drag` while a file is over it, a focus ring around the zone, `data-disabled`.
 - `CodeBlock`: label and a small Copy button; the `<pre>` scrolls sideways and takes keyboard focus (`tabIndex=0`,
-  `role="region"`, named "CSS code"). After Copy, "Copied" or "Copy failed" is read by screen readers (`role="status"`).
+  `role="region"`, named "CSS code"). After Copy the button shows "Copied" or "Copy failed" for 2 seconds without
+  changing width, and the same message is read by screen readers (`role="status"`). Copying uses the Clipboard API, or
+  a temporary textarea with `execCommand('copy')` where it is missing (http on a local network). Pass
+  `onCopy={(code) => myCopy(code)}` (resolves `true` when copied) to use your own.
 
 The same with CSS only: `.field`, `.field-label`, `.field-hint`, `.field-error`, `.input`, `.range`, `.color-field`,
 `.color-field-value`, `.dropzone`, `.dropzone-title`, `.dropzone-hint`, `.code-block`, `.code-block-head`,
-`.code-block-label`, `.btn-sm`, `.btn[aria-pressed="true"]`, `.tag-button`, `.tag-removable`, `.tag-remove`,
+`.code-block-label`, `.code-block-copy`, `.btn-sm`, `.btn[aria-pressed="true"]`, `.tag-button`, `.tag-removable`, `.tag-remove`,
 `.site-header-sticky`, and `.visually-hidden` (in `base.css`). Examples: [Storybook](https://ds.bereg.dev).
 
 ## Sticky header (optional)

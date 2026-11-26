@@ -57,11 +57,14 @@
 .tag-button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .tag-removable { display: inline-flex; align-items: center; gap: var(--space-1); padding-inline-end: var(--space-1); }
 .tag-remove {
-  display: inline-grid; place-items: center; inline-size: var(--space-4); block-size: var(--space-4);
+  position: relative; display: inline-grid; place-items: center; inline-size: var(--space-4); block-size: var(--space-4);
   margin: 0; padding: 0; border: 0; border-radius: var(--radius-sm); background: transparent;
   color: var(--muted); font: inherit; line-height: 1; cursor: pointer;
 }
 .tag-remove:hover { color: var(--text); background: var(--accent-subtle); }
+/* Target area 24×24 (WCAG 2.5.8): 16 + 2 × 4. The visible × and the tag keep their size; the area stays inside the tag
+   (padding 4 on the right, gap 4 on the left), so neighbours in .tags (gap 8) never overlap. */
+.tag-remove::before { content: ''; position: absolute; inset: calc(-1 * var(--space-1)); }
 
 /* ---------- Field (label, control, hint, error) ---------- */
 .field { display: flex; flex-direction: column; gap: var(--space-2); }
@@ -134,6 +137,10 @@
   font-family: var(--mono); font-size: var(--font-size-sm); line-height: var(--leading-snug); color: var(--text);
 }
 .code-block code { font: inherit; }
+/* Copy button texts (Copy, Copied, Copy failed) share one grid cell, so the button keeps the width of the longest. */
+.code-block-copy { display: inline-grid; justify-items: center; }
+.code-block-copy > * { grid-area: 1 / 1; }
+.code-block-copy > :not([data-active]) { visibility: hidden; }
 
 /* ---------- Grid layouts ---------- */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); gap: var(--space-6); }

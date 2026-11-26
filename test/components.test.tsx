@@ -352,23 +352,92 @@ describe('Dropzone', () => {
 describe('CodeBlock', () => {
   it('has a label, a copy button and a focusable scroll area', () => {
     render(<CodeBlock label="CSS" code=".a { color: red; }" />);
-    expect(screen.getByText('CSS')).toHaveClass('code-block-label');
+    expect(screen.getByText('CSS', { selector: '.code-block-label' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Copy CSS' })).toHaveClass('btn', 'btn-sm');
     const region = screen.getByRole('region', { name: 'CSS code' });
     expect(region.tagName).toBe('PRE');
     expect(region).toHaveAttribute('tabindex', '0');
     expect(region).toHaveTextContent('.a { color: red; }');
   });
-  it('announces "Copied", or "Copy failed" when the clipboard is blocked', async () => {
+  const secure = (v: boolean) => Object.defineProperty(window, 'isSecureContext', { value: v, configurable: true });
+  const clipboard = (writeText?: ReturnType<typeof vi.fn>) =>
+    Object.defineProperty(navigator, 'clipboard', { value: writeText ? { writeText } : undefined, configurable: true });
+  const exec = (result: boolean) => Object.defineProperty(document, 'execCommand', { value: vi.fn(() => result), configurable: true });
+  afterEach(() => { vi.useRealTimers(); });
+
+  it('shows "Copied" on the button for 2 s, announces it once, then shows "Copy" again', async () => {
+    secure(true);
     const writeText = vi.fn().mockResolvedValue(undefined);
-    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    clipboard(writeText);
     render(<CodeBlock label="JS" code="go()" />);
-    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Copy JS' })); });
+    const button = screen.getByRole('button', { name: 'Copy JS' });
+    vi.useFakeTimers();
+    await act(async () => { fireEvent.click(button); });
     expect(writeText).toHaveBeenCalledWith('go()');
-    await vi.waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copied'));
-    writeText.mockRejectedValueOnce(new Error('blocked'));
-    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Copy JS' })); });
+    // The visible text is the accessible name: "Copied", not "Copy JS".
+    expect(button).toHaveAccessibleName('Copied');
+    await act(async () => { vi.advanceTimersByTime(100); });
+    expect(screen.getByRole('status')).toHaveTextContent('Copied');
+    await act(async () => { vi.advanceTimersByTime(2000); });
+    expect(button).toHaveAccessibleName('Copy JS');
+    expect(screen.getByRole('status')).toBeEmptyDOMElement();
+  });
+  it('keeps all texts in the button, so its width does not change', () => {
+    render(<CodeBlock label="CSS" code="a" copiedMessage="Copied" failedMessage="Copy failed" />);
+    const texts = screen.getByRole('button', { name: 'Copy CSS' }).querySelectorAll('.code-block-copy > span');
+    expect(Array.from(texts, (t) => t.textContent)).toEqual(['Copy CSS', 'Copied', 'Copy failed']);
+    expect(texts[0]).toHaveAttribute('data-active');
+    expect(texts[1]).toHaveAttribute('aria-hidden', 'true');
+  });
+  it('falls back to execCommand outside a secure context (http://192.168.x.x)', async () => {
+    secure(false);
+    const writeText = vi.fn();
+    clipboard(writeText);
+    exec(true);
+    render(<CodeBlock label="CSS" code=".a{}" />);
+    const button = screen.getByRole('button', { name: 'Copy CSS' });
+    button.focus();
+    await act(async () => { fireEvent.click(button); });
+    expect(writeText).not.toHaveBeenCalled();
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(document.querySelector('textarea')).toBeNull();
+    expect(button).toHaveFocus();
+    expect(button).toHaveAccessibleName('Copied');
+  });
+  it('falls back when the Clipboard API is missing or rejects; shows "Copy failed" when nothing works', async () => {
+    secure(true);
+    clipboard(vi.fn().mockRejectedValue(new Error('blocked')));
+    exec(false);
+    render(<CodeBlock label="HTML" code="<b>" />);
+    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Copy HTML' })); });
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(screen.getByRole('button', { name: 'Copy failed' })).toBeInTheDocument();
     await vi.waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Copy failed'));
+  });
+  it('uses onCopy from the project when given', async () => {
+    exec(true);
+    const onCopy = vi.fn().mockResolvedValue(true);
+    render(<CodeBlock label="CSS" code="x" onCopy={onCopy} />);
+    await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Copy CSS' })); });
+    expect(onCopy).toHaveBeenCalledWith('x');
+    expect(document.execCommand).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Copied' })).toBeInTheDocument();
+  });
+});
+
+describe('1.4.1 Tag remove target', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/components.css');
+  const px = (name: string) => parseFloat(read('../dist/css/tokens.css').match(new RegExp(`--${name}:\\s*([\\d.]+)rem`))![1]) * 16;
+  it('the × has a 24×24 target that stays inside the tag', () => {
+    const size = css.match(/\.tag-remove\s*{[^}]*inline-size:\s*var\(--([\w-]+)\);\s*block-size:\s*var\(--([\w-]+)\)/)!;
+    const inset = css.match(/\.tag-remove::before\s*{[^}]*position:\s*absolute;\s*inset:\s*calc\(-1 \* var\(--([\w-]+)\)\)/)!;
+    expect(px(size[1]) + 2 * px(inset[1])).toBeGreaterThanOrEqual(24);
+    expect(px(size[2]) + 2 * px(inset[1])).toBeGreaterThanOrEqual(24);
+    // Right: the target grows by the inset; the tag's right padding must cover it, so neighbours do not overlap.
+    const pad = css.match(/\.tag-removable\s*{[^}]*gap:\s*var\(--([\w-]+)\);\s*padding-inline-end:\s*var\(--([\w-]+)\)/)!;
+    expect(px(pad[2])).toBeGreaterThanOrEqual(px(inset[1]));
+    expect(px(pad[1])).toBeGreaterThanOrEqual(px(inset[1]));
   });
 });
 

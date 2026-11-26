@@ -79,3 +79,29 @@ export const InteractiveTags: Story = {
     await expect(canvas.queryByText('React')).toBeNull();
   },
 };
+
+export const RemoveTarget: Story = {
+  name: 'Tag (removable): target area',
+  parameters: { docs: { description: { story: 'The × is 16×16, its target is 24×24 (WCAG 2.5.8): a `::before` 4px larger on each side. It stays inside the tag, so neighbours never overlap. Here the target is outlined in highlight for the demo only.' } } },
+  render: () => (
+    <div className="demo-remove-target">
+      <style>{'.demo-remove-target .tag-remove::before { outline: 1px dashed var(--highlight); }'}</style>
+      <ul className="tags">
+        {['TypeScript', 'React', 'OKLab'].map((t) => <li key={t}><Tag onRemove={() => {}}>{t}</Tag></li>)}
+      </ul>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const remove = canvas.getByRole('button', { name: 'Remove React' });
+    const r = remove.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    // 11px from the centre in every direction still hits the button (24×24 target).
+    for (const [dx, dy] of [[-11, 0], [11, 0], [0, -11], [0, 11]]) {
+      await expect(document.elementFromPoint(cx + dx, cy + dy)?.closest('button')).toBe(remove);
+    }
+    // The target ends inside its own tag.
+    const tag = remove.closest('.tag')!.getBoundingClientRect();
+    await expect(cx + 12).toBeLessThanOrEqual(tag.right);
+  },
+};
