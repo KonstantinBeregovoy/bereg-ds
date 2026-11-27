@@ -3,6 +3,19 @@
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/):
 a breaking change to a token name, a class name or a component prop is a major version.
 
+## 1.4.2 (2026-11-27)
+
+Fixes after moving glow.bereg.dev to 1.4.1. No class, token or prop renamed or removed.
+
+- Code Block in a grid or flex: `.code-block` gets `min-width: 0` and `max-width: 100%`, so it no longer grows to its
+  longest line (at 320px a two-column grid made the page 814px wide). Long lines scroll inside `<pre>`.
+- Code Block inside `.prose`: the `.prose pre` border, radius and background and the `.prose code` size (0.9em) no longer
+  reach it (`.prose .code-block pre`, `.prose .code-block code`). One border, code at 14px, as outside `.prose`.
+  Inline `code` and a plain `<pre>` in `.prose` are unchanged.
+- Tag `as="button"` (`.tag-button`): `inline-flex`, `align-items: center`, `gap: var(--space-1)`, like `.tag-removable`,
+  so an icon or a swatch before the text lines up. A tag with only text looks as before.
+- Tests and Storybook: Code Block in a two-column grid and inside `.prose`; Tag (button) with a swatch.
+
 ## 1.4.1 (2026-11-26)
 
 Fixes after checking 1.4.0 on glow.bereg.dev. No class, token or prop renamed or removed.
