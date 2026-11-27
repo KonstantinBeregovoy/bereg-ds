@@ -441,6 +441,26 @@ describe('1.4.1 Tag remove target', () => {
   });
 });
 
+describe('1.4.2 CSS fixes', () => {
+  const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
+  const css = read('../src/css/components.css');
+  it('Code Block does not grow to its longest line in a grid or flex', () => {
+    expect(css).toMatch(/\.code-block\s*{\s*min-width:\s*0;\s*max-width:\s*100%;/);
+    expect(css).toMatch(/\.code-block pre\s*{[^}]*overflow-x:\s*auto/);
+  });
+  it('Code Block inside .prose has no second border and keeps 14px code', () => {
+    expect(css).toMatch(/\.prose \.code-block pre\s*{\s*border:\s*0;\s*border-radius:\s*0;\s*background:\s*none;/);
+    expect(css).toMatch(/\.prose \.code-block code\s*{\s*font-size:\s*inherit;/);
+    // The reset comes after the .prose pre rule, so it wins at the same specificity or higher.
+    expect(css.indexOf('.prose .code-block pre')).toBeGreaterThan(css.indexOf('.prose pre {'));
+    // .prose pre itself is unchanged.
+    expect(css).toMatch(/\.prose pre\s*{\s*max-width:\s*100%;\s*background:\s*var\(--surface\);\s*border:\s*var\(--border-thin\) solid var\(--line\)/);
+  });
+  it('button tag lines up its content like the removable tag', () => {
+    expect(css).toMatch(/\.tag-button\s*{\s*display:\s*inline-flex;\s*align-items:\s*center;\s*gap:\s*var\(--space-1\);/);
+  });
+});
+
 describe('1.4.0 CSS', () => {
   const read = (p: string) => readFileSync(new URL(p, import.meta.url), 'utf8');
   const css = read('../src/css/components.css');

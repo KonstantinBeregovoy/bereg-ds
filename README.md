@@ -149,7 +149,7 @@ Optional props (1.4.0; without them the output is the same as before):
 
 - `Button`: `size="sm"` (`.btn-sm`, toolbars), `pressed` (`aria-pressed`, toggle; use with `variant="secondary"`).
 - `Tag`: `as="button"` (the whole tag is a button) or `onRemove` (a remove button named "Remove <text>", or `removeLabel`;
-  the × looks 16×16, its target is 24×24).
+  the × looks 16×16, its target is 24×24). Button tags line up an icon or swatch before the text (gap 4).
 - `Section`: `sectionId` (id on `<section>`, for anchors; `id` stays on the heading), `headingClassName` (class on `<h2>`).
 - `SiteHeader`: `sticky` (`.site-header-sticky`).
 
@@ -178,7 +178,8 @@ import { CodeBlock, ColorField, Dropzone, Field, Range, TextInput } from 'bereg-
   `role="region"`, named "CSS code"). After Copy the button shows "Copied" or "Copy failed" for 2 seconds without
   changing width, and the same message is read by screen readers (`role="status"`). Copying uses the Clipboard API, or
   a temporary textarea with `execCommand('copy')` where it is missing (http on a local network). Pass
-  `onCopy={(code) => myCopy(code)}` (resolves `true` when copied) to use your own.
+  `onCopy={(code) => myCopy(code)}` (resolves `true` when copied) to use your own. It fits grid and flex cells
+  (`min-width: 0`, long lines scroll inside) and looks the same inside `.prose`.
 
 The same with CSS only: `.field`, `.field-label`, `.field-hint`, `.field-error`, `.input`, `.range`, `.color-field`,
 `.color-field-value`, `.dropzone`, `.dropzone-title`, `.dropzone-hint`, `.code-block`, `.code-block-head`,

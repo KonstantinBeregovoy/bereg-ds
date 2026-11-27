@@ -105,3 +105,25 @@ export const RemoveTarget: Story = {
     await expect(cx + 12).toBeLessThanOrEqual(tag.right);
   },
 };
+
+export const TagButtonContent: Story = {
+  name: 'Tag (button): icon or swatch before the text',
+  parameters: { docs: { description: { story: '`.tag-button` lines up its content like `.tag-removable`: inline-flex, centred, gap 4. A swatch or an icon before the text sits on the same centre line. A tag with only text looks as before.' } } },
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+      {[['#78c2ff', 'Blue'], ['#f2b45e', 'Amber'], ['#ff9e9e', 'Red']].map(([color, name]) => (
+        <Tag key={name} as="button" aria-pressed={name === 'Blue'}>
+          <span aria-hidden="true" style={{ inlineSize: 'var(--space-3)', blockSize: 'var(--space-3)', borderRadius: 'var(--radius-sm)', background: color }} />
+          {name}
+        </Tag>
+      ))}
+      <Tag as="button">Text only</Tag>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const tag = within(canvasElement).getByRole('button', { name: 'Amber' });
+    const [swatch, text] = [tag.firstElementChild!.getBoundingClientRect(), tag.getBoundingClientRect()];
+    const mid = (r: DOMRect) => r.top + r.height / 2;
+    await expect(Math.abs(mid(swatch) - mid(text))).toBeLessThanOrEqual(1);
+  },
+};

@@ -52,7 +52,7 @@
 /* Interactive tags. Button tag (add, toggle): the whole tag is a <button>. Removable tag: text and a remove button.
    Borders of interactive tags are --line-strong (WCAG 1.4.11). */
 .tag-button, .tag-removable { border-color: var(--line-strong); }
-.tag-button { margin: 0; background: transparent; cursor: pointer; }
+.tag-button { display: inline-flex; align-items: center; gap: var(--space-1); margin: 0; background: transparent; cursor: pointer; }
 .tag-button:hover { color: var(--text); border-color: var(--accent); }
 .tag-button[aria-pressed='true'] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .tag-removable { display: inline-flex; align-items: center; gap: var(--space-1); padding-inline-end: var(--space-1); }
@@ -126,7 +126,8 @@
 
 /* ---------- Code Block ---------- */
 /* A panel with a label (HTML, CSS, JS) and a Copy button; the body scrolls sideways and is keyboard focusable. */
-.code-block { margin: 0; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); }
+/* min-width: 0 so a grid or flex item does not grow to the longest code line; long lines scroll inside <pre>. */
+.code-block { min-width: 0; max-width: 100%; margin: 0; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); }
 .code-block-head {
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
   padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4); border-bottom: var(--border-thin) solid var(--line);
@@ -296,6 +297,9 @@
 .prose code { font-family: var(--mono); font-size: 0.9em; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); padding: 0 var(--space-1); }
 .prose pre { max-width: 100%; background: var(--surface); border: var(--border-thin) solid var(--line); border-radius: var(--radius-sm); padding: var(--space-4); overflow-x: auto; font-size: var(--font-size-sm); line-height: var(--leading-snug); }
 .prose pre code { background: none; border: 0; padding: 0; }
+/* Code Block inside .prose looks the same as outside: no second border, radius or background on its <pre>, code at 14px. */
+.prose .code-block pre { border: 0; border-radius: 0; background: none; }
+.prose .code-block code { font-size: inherit; }
 .prose blockquote { border-left: var(--border-thick) solid var(--accent); margin: var(--space-4) 0; padding: 0 var(--space-4); color: var(--muted); }
 .prose table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
 .prose th, .prose td { padding: var(--space-2) var(--space-3); border-bottom: var(--border-thin) solid var(--line); text-align: left; vertical-align: top; }
